@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Calendar from '../views/Calendar.vue';
 
 Vue.use(VueRouter);
 
@@ -7,6 +8,10 @@ const routes = [
   {
     path: '/',
     redirect: '/calendar',
+  },
+  {
+    path: '/calendar',
+    component: Calendar,
   },
 ];
 

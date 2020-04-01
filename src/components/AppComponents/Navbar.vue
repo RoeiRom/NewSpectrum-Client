@@ -1,29 +1,9 @@
 <template>
     <nav>
         <v-toolbar height=100>
-            <router-link to="/downloads">
+            <router-link v-for="route in routes" :key="route.href" :to='route.href '>
                 <v-icon>
-                    mdi-download
-                </v-icon>
-            </router-link>
-            <router-link to="/shoppingList">
-                <v-icon>
-                    mdi-cart
-                </v-icon>
-            </router-link>
-            <router-link to="/news">
-                <v-icon>
-                    mdi-message-text
-                </v-icon>
-            </router-link>
-            <router-link to="/orderFood">
-                <v-icon>
-                    mdi-food
-                </v-icon>
-            </router-link>
-            <router-link to="/calendar">
-                <v-icon>
-                    mdi-calendar-blank
+                    {{ route.icon }}
                 </v-icon>
             </router-link>
             <v-spacer></v-spacer>
@@ -35,8 +15,35 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
+interface Link {
+    href: string;
+    icon: string;
+}
+
 @Component
 export default class Navbar extends Vue {
+    routes: Link[] = [
+      {
+        icon: 'mdi-download',
+        href: '/downloads',
+      },
+      {
+        icon: 'mdi-cart',
+        href: '/shoppingList',
+      },
+      {
+        icon: 'mdi-message-text',
+        href: '/news',
+      },
+      {
+        icon: 'mdi-food',
+        href: '/orderFood',
+      },
+      {
+        icon: 'mdi-calendar-blank',
+        href: '/calendar',
+      },
+    ]
 }
 </script>
 
