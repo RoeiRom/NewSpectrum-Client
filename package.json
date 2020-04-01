@@ -5,13 +5,16 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node server.js"
   },
   "dependencies": {
     "apollo-boost": "^0.4.7",
     "core-js": "^3.6.4",
+    "express": "^4.17.1",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
+    "serve-static": "^1.14.1",
     "vue": "^2.6.11",
     "vue-apollo": "^3.0.3",
     "vue-class-component": "^7.2.2",
