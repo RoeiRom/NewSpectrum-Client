@@ -5,7 +5,7 @@ import ApolloClient from 'apollo-boost';
 Vue.use(VueApollo);
 
 const apolloClient = new ApolloClient({
-  uri: 'http://localhost:9000/graphql',
+  uri: process.env.VUE_APP_DB_SERVICE_URL,
 });
 
 export default new VueApollo({
