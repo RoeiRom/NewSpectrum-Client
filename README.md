@@ -1,4 +1,4 @@
-# newspectrum-client
+# NewSpectrum-Client
 
 ## Project setup
 ```
