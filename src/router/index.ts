@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Calendar from '../views/Calendar.vue';
+import Downloads from '../views/Downloads.vue';
 
 Vue.use(VueRouter);
 
@@ -15,7 +16,7 @@ const routes = [
   },
   {
     path: '/downloads',
-    component: Calendar,
+    component: Downloads,
   },
 ];
 

@@ -1,5 +1,12 @@
 <template>
-    <div>
+    <div class='container'>
+      <v-card v-for='download in downloads' class="card" :key='download.title'>
+        <v-icon class="material-icons" color='black' size='10vh'>
+          system_update_alt
+        </v-icon>
+        <v-divider class='divider'/>
+        {{download.title}}
+      </v-card>
     </div>
 </template>
 
@@ -7,11 +14,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 import Download from '@/models/Download';
+import { AllDownloads } from '@/db-service/Downloads/queries';
 
 @Component({
   apollo: {
     allDownloads: {
-      // query: AllDownloads,
+      query: AllDownloads,
     },
   },
 })
@@ -26,5 +34,18 @@ export default class Downloads extends Vue {
 </script>
 
 <style scoped>
-
+  .container {
+    display: flex;
+  }
+  .card {
+    border: black solid 0.5px !important;
+    width: 20vw;
+    height: 25vh;
+    margin: 1vw;
+    text-align: center;
+  }
+  .divider {
+    border-color: black;
+    margin: 1vw;
+  }
 </style>
