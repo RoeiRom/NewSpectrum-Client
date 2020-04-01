@@ -1,6 +1,7 @@
-import express from 'express';
-import serveStatic from 'serve-static';
-import path from 'path';
+/* eslint-disable */
+const express = require('express');
+const serveStatic = require('serve-static');
+const path = require('path');
 
 const app = express();
 
@@ -14,3 +15,4 @@ app.get(/.*/, (req, res) => {
 
 const port = process.env.PORT || 8080;
 app.listen(port);
+/* eslint-enable */
