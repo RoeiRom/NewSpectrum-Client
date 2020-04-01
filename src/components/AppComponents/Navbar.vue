@@ -1,13 +1,13 @@
 <template>
     <nav>
         <v-toolbar height=100>
+            <img :src="require('@/assets/logo.png')" />
+            <v-spacer></v-spacer>
             <router-link v-for="route in routes" :key="route.href" :to='route.href '>
                 <v-icon>
                     {{ route.icon }}
                 </v-icon>
             </router-link>
-            <v-spacer></v-spacer>
-            <img :src="require('@/assets/logo.png')" />
         </v-toolbar>
     </nav>
 </template>
@@ -24,24 +24,24 @@ interface Link {
 export default class Navbar extends Vue {
     routes: Link[] = [
       {
-        icon: 'mdi-download',
-        href: '/downloads',
-      },
-      {
-        icon: 'mdi-cart',
-        href: '/shoppingList',
-      },
-      {
-        icon: 'mdi-message-text',
-        href: '/news',
+        icon: 'mdi-calendar-blank',
+        href: '/calendar',
       },
       {
         icon: 'mdi-food',
         href: '/orderFood',
       },
       {
-        icon: 'mdi-calendar-blank',
-        href: '/calendar',
+        icon: 'mdi-message-text',
+        href: '/news',
+      },
+      {
+        icon: 'mdi-cart',
+        href: '/shoppingList',
+      },
+      {
+        icon: 'mdi-download',
+        href: '/downloads',
       },
     ]
 }
