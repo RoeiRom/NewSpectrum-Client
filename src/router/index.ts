@@ -13,6 +13,10 @@ const routes = [
     path: '/calendar',
     component: Calendar,
   },
+  {
+    path: '/downloads',
+    component: Calendar,
+  },
 ];
 
 const router = new VueRouter({

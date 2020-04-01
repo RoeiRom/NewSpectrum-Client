@@ -1,11 +1,11 @@
 <template>
   <v-app>
-      <Navbar />
-      <v-content>
-        <v-container>
-          <router-view />
-        </v-container>
-      </v-content>
+    <Navbar />
+    <v-content>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
@@ -18,14 +18,12 @@ import Navbar from './components/AppComponents/Navbar.vue';
     Navbar,
   },
 })
-export default class App extends Vue {
-
-}
+export default class App extends Vue {}
 </script>
 
 <style scoped>
 #app {
-  background-color: rgb(245,242,242);
+  background-color: rgb(245, 242, 242);
   direction: rtl;
 }
 </style>
