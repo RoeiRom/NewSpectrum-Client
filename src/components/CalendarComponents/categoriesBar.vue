@@ -27,7 +27,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Category from '@/models/Category';
-import { AllCategories } from '@/queries/Categories';
+import { AllCategories } from '@/db-service/Categories/queries';
 
 @Component({
   apollo: {

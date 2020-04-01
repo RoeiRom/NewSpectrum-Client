@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import CategoriesBar from '@/components/CalendarComponents/categoriesBar.vue';
-import { AllEvents } from '@/queries/Events';
+import { AllEvents } from '@/db-service/Events/queries';
 import Event from '@/models/Event';
 
 interface CalendarEvent {
