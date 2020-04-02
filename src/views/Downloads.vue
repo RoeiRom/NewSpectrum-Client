@@ -1,11 +1,11 @@
 <template>
-    <div class='container'>
+    <div class="container">
       <v-card v-for='download in downloads' class="card" :key='download.title'>
-        <v-icon class="material-icons" color='black' size='10vh'>
-          system_update_alt
-        </v-icon>
-        <v-divider class='divider'/>
-        {{download.title}}
+          <v-icon class="material-icons icon" color='black' size='15vh'>
+            system_update_alt
+          </v-icon>
+          <v-divider class='divider'/>
+          {{download.title}}
       </v-card>
     </div>
 </template>
@@ -35,17 +35,20 @@ export default class Downloads extends Vue {
 
 <style scoped>
   .container {
-    display: flex;
+    display: table;
   }
   .card {
     border: black solid 0.5px !important;
-    width: 20vw;
+    width: 20%;
     height: 25vh;
     margin: 1vw;
     text-align: center;
+    display: inline-block;
+  }
+  .icon {
+    margin: 1vh 0
   }
   .divider {
-    border-color: black;
-    margin: 1vw;
+    margin: 0 1vw;
   }
 </style>

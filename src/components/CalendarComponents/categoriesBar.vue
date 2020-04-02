@@ -71,7 +71,6 @@ export default class CategoriesBar extends Vue {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 90%;
         background-color: white;
         border: solid black 1px;
         padding: 1vh 0;
