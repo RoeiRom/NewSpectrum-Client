@@ -1,7 +1,7 @@
 <template>
   <nav>
     <v-toolbar height="100">
-      <img :src="require('@/assets/logo.png')" />
+      <img :src="require('@/assets/images/logo.png')" />
       <v-spacer></v-spacer>
       <router-link v-for="route in routes" :key="route.href" :to="route.href ">
         <v-icon color="black">{{ route.icon }}</v-icon>
