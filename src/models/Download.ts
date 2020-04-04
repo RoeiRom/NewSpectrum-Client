@@ -1,6 +1,6 @@
 interface Download {
     title: string;
-    filePath: string;
+    fileName: string;
 }
 
 export default Download;
