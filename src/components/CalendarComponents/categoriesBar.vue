@@ -27,7 +27,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Category from '@/models/Category';
-import { AllCategories } from '@/queries/Categories';
+import { AllCategories } from '@/db-service/Categories/queries';
 
 @Component({
   apollo: {
@@ -71,7 +71,6 @@ export default class CategoriesBar extends Vue {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 90%;
         background-color: white;
         border: solid black 1px;
         padding: 1vh 0;
