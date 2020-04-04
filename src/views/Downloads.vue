@@ -27,13 +27,10 @@ import { AllDownloads } from '@/db-service/Downloads/queries';
       query: AllDownloads,
     },
   },
-  data() {
-    return {
-      publicPath: process.env.BASE_URL,
-    };
-  },
 })
 export default class Downloads extends Vue {
+  private publicPath: string | undefined = process.env.BASE_URL
+
   get downloads(): Download[] {
     if (this.$data.allDownloads !== undefined) {
       return this.$data.allDownloads.nodes;
