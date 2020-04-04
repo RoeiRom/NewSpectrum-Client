@@ -4,11 +4,11 @@
         v-for='download in downloads' class="card">
         <a :href="`${publicPath}downloads/${download.fileName}`" download class="cardContainer">
           <div>
-          <v-icon class="material-icons icon" color='black' size='15vh'>
-            system_update_alt
-          </v-icon>
-          <v-divider class='divider'/>
-          {{download.title}}
+            <v-icon class="material-icons icon" color='black' size='15vh'>
+              system_update_alt
+            </v-icon>
+            <v-divider class='divider'/>
+            {{download.title}}
           </div>
         </a>
       </v-card>
