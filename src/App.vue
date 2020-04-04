@@ -20,8 +20,11 @@ export default class App extends Vue {}
 </script>
 
 <style scoped>
+@import 'assets/fonts/fonts.css';
+
 #app {
   background-color: rgb(245, 242, 242);
   direction: rtl;
+  font-family: 'Assistant', 'Arial-Rounded-MT-Bold-Font';
 }
 </style>
