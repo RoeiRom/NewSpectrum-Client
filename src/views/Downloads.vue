@@ -1,7 +1,8 @@
 <template>
     <div class="container">
-      <v-card v-for='download in downloads' class="card" :key='download.title'>
-        <div class="cardContainer">
+      <v-card :key='download.title'
+        v-for='download in downloads' class="card">
+        <a :href="`${publicPath}downloads/${download.fileName}`" download class="cardContainer">
           <div>
           <v-icon class="material-icons icon" color='black' size='15vh'>
             system_update_alt
@@ -9,7 +10,7 @@
           <v-divider class='divider'/>
           {{download.title}}
           </div>
-        </div>
+        </a>
       </v-card>
     </div>
 </template>
@@ -25,6 +26,11 @@ import { AllDownloads } from '@/db-service/Downloads/queries';
     allDownloads: {
       query: AllDownloads,
     },
+  },
+  data() {
+    return {
+      publicPath: process.env.BASE_URL,
+    };
   },
 })
 export default class Downloads extends Vue {
@@ -54,6 +60,8 @@ export default class Downloads extends Vue {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: blink;
+    color: black;
   }
   .icon {
     padding: 2vh;

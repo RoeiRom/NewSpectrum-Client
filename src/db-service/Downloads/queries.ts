@@ -6,7 +6,7 @@ export const AllDownloads = gql`
 query AllDownloads {
     allDownloads {
         nodes {
-          filePath
+          fileName
           title
         }
     }
