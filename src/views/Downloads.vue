@@ -62,10 +62,11 @@ export default class Downloads extends Vue {
   }
   .icon {
     padding: 2vh;
+    border-radius: 50%;
+    cursor: pointer;
   }
   .icon:hover {
     background-color: lightgray;
-    border-radius: 50%;
   }
   .divider {
     margin: 1vh 0;
