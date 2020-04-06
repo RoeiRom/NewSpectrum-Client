@@ -61,9 +61,9 @@ export default class CategoriesBar extends Vue {
     .category {
         font-weight: bold;
         border-radius: 9%;
-        border: solid black 1px;
-        width: 10%;
-        padding: 1% 0;
+        border: solid black 0.5px;
+        width: 8%;
+        padding: 0.5% 0;
         text-align: center;
         margin-right: 1%;
     }
