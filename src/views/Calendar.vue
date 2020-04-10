@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="calendarWrapper">
         <CategoriesBar
             @prevPressed="$refs.calendar.prev()"
             @nextPressed="$refs.calendar.next()"
@@ -71,5 +71,8 @@ export default class Calendar extends Vue {
 </script>
 
 <style scoped>
-
+  .calendarWrapper {
+    width: 100%;
+    margin-top: 5vh;
+  }
 </style>
