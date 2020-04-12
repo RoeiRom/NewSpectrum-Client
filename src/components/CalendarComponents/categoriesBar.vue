@@ -7,7 +7,7 @@
         </v-btn>
         <div class="categories">
             <v-btn icon class="add-button">
-                <v-icon color="black">
+                <v-icon color="black" @click="$emit('addEventButtonPressed')">
                     mdi-plus
                 </v-icon>
             </v-btn>
