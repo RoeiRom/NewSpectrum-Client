@@ -10,6 +10,7 @@ query AllEvents {
             startDate
             endDate
             title
+            isAllDay
             category : categoryByCategory {
             id
             title
