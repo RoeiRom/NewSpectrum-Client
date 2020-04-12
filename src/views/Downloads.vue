@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
       <v-card :key='download.title'
         v-for='download in downloads' class="card">
         <a :href="`${publicPath}downloads/${download.fileName}`" download class="cardContainer">
@@ -41,12 +41,9 @@ export default class Downloads extends Vue {
 </script>
 
 <style scoped>
-  .container {
-    display: table;
-  }
   .card {
-    border: black solid 0.5px !important;
-    width: 20%;
+    border: black solid 0.5px;
+    width: 15vw;
     height: 30vh;
     margin: 1vw;
     text-align: center;
@@ -63,7 +60,6 @@ export default class Downloads extends Vue {
   .icon {
     padding: 2vh;
     border-radius: 50%;
-    cursor: pointer;
   }
   .icon:hover {
     background-color: lightgray;

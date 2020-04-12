@@ -2,7 +2,9 @@
   <v-app>
     <Navbar />
       <v-container>
-        <router-view />
+        <div class="content">
+          <router-view />
+        </div>
       </v-container>
   </v-app>
 </template>
@@ -26,5 +28,10 @@ export default class App extends Vue {}
   background-color: rgb(245, 242, 242);
   direction: rtl;
   font-family: 'Assistant', 'Arial-Rounded-MT-Bold-Font';
+}
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 </style>
