@@ -20,7 +20,6 @@
 
 <script lang="ts">
 import axios from 'axios';
-import { mapActions } from 'vuex';
 import { Component, Vue } from 'vue-property-decorator';
 
 import CategoriesBar from '@/components/CalendarComponents/categoriesBar.vue';
@@ -89,7 +88,7 @@ export default class Calendar extends Vue {
       return event.color;
     }
     /* eslint-enable */
-    
+
     public mounted() {
       axios.all([
         graphqlAxios(AllEvents),
