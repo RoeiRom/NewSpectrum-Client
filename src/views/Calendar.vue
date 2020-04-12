@@ -1,6 +1,7 @@
 <template>
     <div class="calendarWrapper">
         <CategoriesBar
+            :categories="categories"
             :title="calendarDateTitle"
             @prevPressed="$refs.calendar.prev()"
             @nextPressed="$refs.calendar.next()"
@@ -18,11 +19,16 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
+import { mapActions } from 'vuex';
 import { Component, Vue } from 'vue-property-decorator';
 
 import CategoriesBar from '@/components/CalendarComponents/categoriesBar.vue';
 import { AllEvents } from '@/db-service/Events/queries';
+import { AllCategories } from '@/db-service/Categories/queries';
 import Event from '@/models/Event';
+import Category from '@/models/Category';
+import graphqlAxios from '@/plugins/axiosGraphql';
 
 interface CalendarEvent {
     name: string;
@@ -35,11 +41,14 @@ interface CalendarEvent {
   components: {
     CategoriesBar,
   },
-  apollo: {
-    allEvents: {
-      query: AllEvents,
-    },
-  },
+  // apollo: {
+  //   allEvents: {
+  //     query: AllEvents,
+  //   },
+  //   allCategories: {
+  //     query: AllCategories,
+  //   },
+  // },
 })
 export default class Calendar extends Vue {
     startTimeCalendar = Calendar.formatDate(new Date(), false);
@@ -50,11 +59,20 @@ export default class Calendar extends Vue {
       return `${monthName} ${startDate.getFullYear()}`;
     }
 
+    allEvents: {nodes: Event[]} = {
+      nodes: [],
+    };
+
+    allCategories: {nodes: Category[]} = {
+      nodes: [],
+    };
+
     get events(): Event[] {
-      if (this.$data.allEvents !== undefined) {
-        return this.$data.allEvents.nodes;
-      }
-      return [];
+      return this.allEvents.nodes;
+    }
+
+    get categories(): Category[] {
+      return this.allCategories.nodes;
     }
 
     get calendarEvents(): CalendarEvent[] {
@@ -71,6 +89,16 @@ export default class Calendar extends Vue {
       return event.color;
     }
     /* eslint-enable */
+    
+    public mounted() {
+      axios.all([
+        graphqlAxios(AllEvents),
+        graphqlAxios(AllCategories),
+      ]).then(axios.spread((...responses) => {
+        this.allEvents = responses[0].data.data.allEvents;
+        this.allCategories = responses[1].data.data.allCategories;
+      }));
+    }
 
     static formatDate(dateToFormat: Date, withTime: boolean): string {
       const date = `${dateToFormat.getFullYear()}-${dateToFormat.getMonth() + 1}-${dateToFormat.getDate()}`;

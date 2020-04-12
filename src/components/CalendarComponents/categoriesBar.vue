@@ -28,25 +28,14 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Category from '@/models/Category';
-import { AllCategories } from '@/db-service/Categories/queries';
 
-@Component({
-  apollo: {
-    allCategories: {
-      query: AllCategories,
-    },
-  },
-})
+@Component({})
 export default class CategoriesBar extends Vue {
-    @Prop()
-    title!: string;
+  @Prop({ type: Array, default: [] })
+  categories!: Array<Category>;
 
-    get categories(): Category[] {
-      if (this.$data.allCategories !== undefined) {
-        return this.$data.allCategories.nodes;
-      }
-      return [];
-    }
+  @Prop()
+  title!: string;
 }
 </script>
 

@@ -16,9 +16,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import Download from '@/models/Download';
+import StoreModule from '@/store/storeModule';
 import { AllDownloads } from '@/db-service/Downloads/queries';
 
 @Component({
@@ -29,13 +31,30 @@ import { AllDownloads } from '@/db-service/Downloads/queries';
   },
 })
 export default class Downloads extends Vue {
-  private publicPath: string | undefined = process.env.BASE_URL
+  private publicPath: string | undefined = process.env.BASE_URL;
+
+  private storeModule = getModule(StoreModule, this.$store);
 
   get downloads(): Download[] {
     if (this.$data.allDownloads !== undefined) {
+      this.storeModule.setDisplayProgressBar(false);
       return this.$data.allDownloads.nodes;
     }
     return [];
+  }
+
+  /* eslint-disable */
+  mounted() {
+    this.storeModule.setDisplayProgressBar(true);
+  }
+  /* eslint-enable */
+
+  @Watch('$apollo.loading')
+  // eslint-disable-next-line
+  loadingStateChanged(newState: boolean, oldState: boolean) {
+    if (!newState) {
+      this.storeModule.setDisplayProgressBar(false);
+    }
   }
 }
 </script>
