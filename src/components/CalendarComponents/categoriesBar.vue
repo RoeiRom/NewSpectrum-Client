@@ -34,7 +34,7 @@ export default class CategoriesBar extends Vue {
   @Prop({ type: Array, default: [] })
   categories!: Array<Category>;
 
-  @Prop()
+  @Prop({ type: String, default: '[]' })
   title!: string;
 }
 </script>

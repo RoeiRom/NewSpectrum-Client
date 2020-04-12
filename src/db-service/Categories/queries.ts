@@ -1,23 +1,12 @@
 import gql from 'graphql-tag';
 
+export default {};
+
 export const AllCategories = gql`
 {
   allCategories {
     nodes {
-      id
-      color
-      title
-    }
-  }
-}
-`;
-
-export const AllsCategories = gql`
-{
-  allCategories {
-    nodes {
-      id
-      color
+      tag
       title
     }
   }
