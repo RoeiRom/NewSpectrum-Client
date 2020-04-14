@@ -1,9 +1,7 @@
 <template>
     <div class="bar">
-        <v-btn icon class="nav-button">
-            <v-icon color="black" @click="$emit('prevPressed')">
-                mdi-chevron-right
-            </v-icon>
+        <v-btn class="nav-button" text icon @click="$emit('prevPressed')">
+            <v-icon color="black">mdi-chevron-right</v-icon>
         </v-btn>
         <v-btn icon class="add-button" small>
             <v-icon color="black">
@@ -17,10 +15,8 @@
             </div>
         </div>
         <h2>{{title}}</h2>
-        <v-btn icon class="nav-button">
-            <v-icon color="black" @click="$emit('nextPressed')">
-                mdi-chevron-left
-            </v-icon>
+        <v-btn class="nav-button" text icon @click="$emit('nextPressed')">
+            <v-icon color="black">mdi-chevron-left</v-icon>
         </v-btn>
     </div>
 </template>
@@ -34,7 +30,7 @@ export default class CategoriesBar extends Vue {
   @Prop({ type: Array, default: [] })
   categories!: Array<Category>;
 
-  @Prop({ type: String, default: '[]' })
+  @Prop({ type: String, default: '' })
   title!: string;
 }
 </script>
