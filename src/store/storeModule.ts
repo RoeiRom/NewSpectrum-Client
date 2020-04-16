@@ -8,6 +8,8 @@ import {
 export default class StoreModule extends VuexModule {
     displayProgressBar = false;
 
+    userId = '';
+
     @Mutation
     setDisplayProgressBarMutation(newState: boolean) {
       this.displayProgressBar = newState;
@@ -16,5 +18,15 @@ export default class StoreModule extends VuexModule {
     @Action
     setDisplayProgressBar(newState: boolean) {
       this.context.commit('setDisplayProgressBarMutation', newState);
+    }
+
+    @Mutation
+    setUserIdMutation(newState: string) {
+      this.userId = newState;
+    }
+
+    @Action
+    setUserId(newState: string) {
+      this.context.commit('setUserIdMutation', newState);
     }
 }

@@ -12,3 +12,15 @@ query allUsersBirthdays {
     }
   }  
 `;
+
+export const getLoggedInUser = gql`
+query getLoggedInUser($userName: String!, $password: String!) {
+  loggedInUser : allUsers(condition: {userName: $userName, password: $password}) {
+    nodes {
+      id
+      birthday
+      name
+    }
+  }
+} 
+`;

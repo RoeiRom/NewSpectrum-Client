@@ -7,15 +7,21 @@
             outlined
             prepend-inner-icon="perm_identity"
             placeholder="הזן שם משתמש"
+            v-model="userName"
             />
             <v-text-field
             single-line
             outlined
             prepend-inner-icon="mdi-key-outline"
             placeholder="הזן סיסמא"
+            v-model="password"
             />
-            <v-checkbox label="זכור אותי"/>
-            <v-btn class="login-button">
+            <v-checkbox
+            label="זכור אותי"
+            v-model="rememberLogin"/>
+            <v-btn
+            class="login-button"
+            @click="login">
                 התחבר
             </v-btn>
         </v-form>
@@ -23,19 +29,59 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
-@Component({
-})
+import StoreModule from '@/store/storeModule';
+import { getLoggedInUser } from '@/db-service/Users/queries';
+import User from '../models/User';
+
+@Component
 export default class Login extends Vue {
-  private dialog = false;
+  private userName = '';
+
+  private password = '';
+
+  private rememberLogin = false;
+
+  private storeModule = getModule(StoreModule, this.$store);
+
+  login() {
+    this.$apollo.query({
+      query: getLoggedInUser,
+      variables: {
+        userName: this.userName,
+        password: this.password,
+      },
+    }).then((data) => {
+      if (data.data.loggedInUser !== undefined) {
+        const loggedInUsers: User[] = data.data.loggedInUser.nodes;
+        if (loggedInUsers.length !== 0) {
+          const loggedInUser: User = loggedInUsers[0];
+          this.storeModule.setUserId(loggedInUser.id.toString());
+          if (this.rememberLogin) {
+            localStorage.setItem('userName', this.userName);
+            localStorage.setItem('password', this.password);
+          }
+        }
+      }
+    });
+  }
+
+  @Watch('$apollo.loading')
+  // eslint-disable-next-line
+  loadingStateChanged(newState: boolean, oldState: boolean) {
+    if (!newState) {
+      this.storeModule.setDisplayProgressBar(false);
+    }
+  }
 }
 </script>
 
 <style scoped>
   .card {
     border: black solid 0.5px;
-    width: 25vw;
+    width: fit-content;
     height: fit-content;
     display: flex;
     flex-direction: column;
