@@ -4,7 +4,6 @@
             :title="calendarDateTitle"
             @prevPressed="$refs.calendar.prev()"
             @nextPressed="$refs.calendar.next()"
-            @addEventButtonPressed="openEventAdd = true"
         />
         <v-calendar
             v-model="startTimeCalendar"
@@ -15,11 +14,6 @@
             event-text-color="black"
             ref="calendar"
         />
-        <div v-if="openEventAdd == true">
-          נלחץ
-          <v-card>a</v-card>
-        </div>
-        <div v-else>לא נלחץ</div>
     </div>
 </template>
 

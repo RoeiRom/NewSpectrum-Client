@@ -5,12 +5,12 @@
                 mdi-chevron-right
             </v-icon>
         </v-btn>
-        <div class="categories">
-            <v-btn icon class="add-button" small>
-            <v-icon color="black" @click="$emit('addEventButtonPressed')">
+        <v-btn icon class="add-button" small>
+            <v-icon color="black" @click="$router.push('calender/addEvent')">
                 mdi-plus
             </v-icon>
         </v-btn>
+        <div class="categories">
             <div v-for="category in categories" :key="category.id"
                 class="category" :style="{ backgroundColor: category.color }">
                 {{ category.title }}

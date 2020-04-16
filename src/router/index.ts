@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Calendar from '../views/Calendar.vue';
 import Downloads from '../views/Downloads.vue';
+import AddEvent from '../components/CalendarComponents/addEvent.vue';
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,10 @@ const routes = [
   {
     path: '/downloads',
     component: Downloads,
+  },
+  {
+    path: '/calender/addEvent',
+    component: AddEvent,
   },
 ];
 
