@@ -2,6 +2,11 @@
   <nav>
     <v-toolbar height="100">
       <img :src="require('@/assets/images/logo.png')" />
+      <v-progress-circular v-if="displayProgressBar"
+                           indeterminate
+                           color="primary"
+                           class="circle-progress"
+                           :size="40" />
       <v-spacer></v-spacer>
       <router-link v-for="route in routes" :key="route.href" :to="route.href ">
         <v-icon color="black">{{ route.icon }}</v-icon>
@@ -11,7 +16,10 @@
 </template>
 
 <script lang="ts">
+import { getModule } from 'vuex-module-decorators';
 import { Component, Vue } from 'vue-property-decorator';
+
+import StoreModule from '@/store/storeModule';
 
 interface Link {
   href: string;
@@ -42,6 +50,11 @@ export default class Navbar extends Vue {
       href: '/downloads',
     },
   ];
+
+  get displayProgressBar() {
+    const storeModule = getModule(StoreModule, this.$store);
+    return (storeModule.displayProgressBar);
+  }
 }
 </script>
 
@@ -58,5 +71,11 @@ a:hover {
 }
 .router-link-exact-active {
   background-color: lightgray;
+}
+.circle-progress {
+  position: absolute;
+  z-index: 100;
+  right: 17vh;
+  top: 5vh;
 }
 </style>

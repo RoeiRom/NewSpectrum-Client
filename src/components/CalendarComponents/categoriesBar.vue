@@ -1,9 +1,7 @@
 <template>
     <div class="bar">
-        <v-btn icon class="nav-button">
-            <v-icon color="black" @click="$emit('prevPressed')">
-                mdi-chevron-right
-            </v-icon>
+        <v-btn class="nav-button" text icon @click="$emit('prevPressed')">
+            <v-icon color="black">mdi-chevron-right</v-icon>
         </v-btn>
         <v-btn icon class="add-button" small>
             <v-icon color="black" @click="$router.push('calender/addEvent')">
@@ -17,10 +15,8 @@
             </div>
         </div>
         <h2>{{title}}</h2>
-        <v-btn icon class="nav-button">
-            <v-icon color="black" @click="$emit('nextPressed')">
-                mdi-chevron-left
-            </v-icon>
+        <v-btn class="nav-button" text icon @click="$emit('nextPressed')">
+            <v-icon color="black">mdi-chevron-left</v-icon>
         </v-btn>
     </div>
 </template>
@@ -28,25 +24,14 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Category from '@/models/Category';
-import { AllCategories } from '@/db-service/Categories/queries';
 
-@Component({
-  apollo: {
-    allCategories: {
-      query: AllCategories,
-    },
-  },
-})
+@Component({})
 export default class CategoriesBar extends Vue {
-    @Prop()
-    title!: string;
+  @Prop({ type: Array, default: [] })
+  categories!: Array<Category>;
 
-    get categories(): Category[] {
-      if (this.$data.allCategories !== undefined) {
-        return this.$data.allCategories.nodes;
-      }
-      return [];
-    }
+  @Prop({ type: String, default: '' })
+  title!: string;
 }
 </script>
 

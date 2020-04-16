@@ -1,5 +1,7 @@
+import CategoryTag from './enum/CategoryTag';
+
 interface Category {
-    id: number;
+    tag: CategoryTag;
     title: string;
     color: string;
 }
