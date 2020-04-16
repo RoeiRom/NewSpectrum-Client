@@ -3,13 +3,13 @@
       <v-card :key='download.title'
         v-for='download in downloads' class="card">
         <a :href="`${publicPath}downloads/${download.fileName}`" download class="cardContainer">
-          <div>
+          <!-- <div>
             <v-icon class="material-icons icon" color='black' size='15vh'>
               system_update_alt
             </v-icon>
             <v-divider class='divider'/>
             {{download.title}}
-          </div>
+          </div> -->
         </a>
       </v-card>
     </div>
@@ -36,6 +36,7 @@ export default class Downloads extends Vue {
   private storeModule = getModule(StoreModule, this.$store);
 
   get downloads(): Download[] {
+    console.log(this.$data.allDownloads);
     if (this.$data.allDownloads !== undefined) {
       this.storeModule.setDisplayProgressBar(false);
       return this.$data.allDownloads.nodes;

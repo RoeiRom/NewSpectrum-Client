@@ -38,7 +38,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import StoreModule from '@/store/storeModule';
 import { getLoggedInUser } from '@/db-service/Users/queries';
-import User from '../models/User';
+import User from '@/models/User';
 
 const worngAuthMessage = 'אוף! שם המשתמש ו/או הסיסמא לא נכונים. פנה למנהל המערכת כדי לשחזר אותם';
 
@@ -75,12 +75,13 @@ export default class Login extends Vue {
             localStorage.setItem('userName', this.userName);
             localStorage.setItem('password', this.password);
           }
+          this.$router.replace('/');
         } else {
           this.errorMessage = worngAuthMessage;
         }
       }
     })
-      .catch((error) => { this.errorMessage = dbErrorMessage; });
+      .catch(() => { this.errorMessage = dbErrorMessage; });
   }
 
   @Watch('$apollo.loading')
@@ -96,10 +97,12 @@ export default class Login extends Vue {
 <style scoped>
   .card {
     border: black solid 0.5px;
-    width: 35vw;
-    height: fit-content;
+    width: 30vw;
+    height: 80vh;
     display: flex;
     flex-direction: column;
+    margin: auto;
+    padding: 2vh 0;
   }
   .logo {
       width: fit-content;

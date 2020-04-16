@@ -1,11 +1,14 @@
 <template>
-  <v-app>
-    <Navbar v-if="isLoggedIn"/>
+  <v-app v-if="isLoggedIn">
+    <Navbar/>
       <v-container>
         <div class="content">
           <router-view />
         </div>
       </v-container>
+  </v-app>
+  <v-app v-else>
+    <router-view />
   </v-app>
 </template>
 
@@ -46,14 +49,14 @@ export default class App extends Vue {
             this.storeModule.setUserId(loggedInUser.id.toString());
           }
         }
-      })
-      .catch(error => {});
+      });
     }
   }
  /* eslint-enable */
 
   get isLoggedIn() {
-    return (this.storeModule.userId !== '');
+    const isUserLogged: boolean = this.storeModule.userId !== '';
+    return isUserLogged;
   }
 }
 </script>
