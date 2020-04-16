@@ -10,6 +10,9 @@
             v-model="userName"
             />
             <v-text-field
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPassword = !showPassword"
+            :type="showPassword ? 'text' : 'password'"
             single-line
             outlined
             prepend-inner-icon="mdi-key-outline"
@@ -19,6 +22,7 @@
             <v-checkbox
             label="זכור אותי"
             v-model="rememberLogin"/>
+            <h5 class='error-message'>{{this.errorMessage}}</h5>
             <v-btn
             class="login-button"
             @click="login">
@@ -36,6 +40,10 @@ import StoreModule from '@/store/storeModule';
 import { getLoggedInUser } from '@/db-service/Users/queries';
 import User from '../models/User';
 
+const worngAuthMessage = 'אוף! שם המשתמש ו/או הסיסמא לא נכונים. פנה למנהל המערכת כדי לשחזר אותם';
+
+const dbErrorMessage = 'אופס! יש תקלה במערכת, נסה שוב מאוחר יותר';
+
 @Component
 export default class Login extends Vue {
   private userName = '';
@@ -43,6 +51,10 @@ export default class Login extends Vue {
   private password = '';
 
   private rememberLogin = false;
+
+  private showPassword = false;
+
+  private errorMessage = '';
 
   private storeModule = getModule(StoreModule, this.$store);
 
@@ -63,9 +75,12 @@ export default class Login extends Vue {
             localStorage.setItem('userName', this.userName);
             localStorage.setItem('password', this.password);
           }
+        } else {
+          this.errorMessage = worngAuthMessage;
         }
       }
-    });
+    })
+      .catch((error) => { this.errorMessage = dbErrorMessage; });
   }
 
   @Watch('$apollo.loading')
@@ -81,7 +96,7 @@ export default class Login extends Vue {
 <style scoped>
   .card {
     border: black solid 0.5px;
-    width: fit-content;
+    width: 35vw;
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -98,5 +113,10 @@ export default class Login extends Vue {
   .login-button {
     border: black solid 0.5px;
     margin: 1vh auto;
+  }
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 2vh;
   }
 </style>
