@@ -44,9 +44,16 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const userName: string | null = localStorage.getItem('userName');
+  const password: string | null = localStorage.getItem('password');
+
+  const loggedIn: boolean = userName !== null && password !== null;
+
   if (to.name === null) {
     next('/');
-  } else if (to.meta.requiresAuth && storeModule.userId === '') {
+  } else if (to.path === '/login' && loggedIn) {
+    next('/');
+  } else if (to.meta.requiresAuth && storeModule.userId === '' && !loggedIn) {
     next('/login');
   } else {
     next();
