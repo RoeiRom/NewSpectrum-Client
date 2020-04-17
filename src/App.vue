@@ -8,7 +8,7 @@
       </v-container>
   </v-app>
   <v-app v-else>
-    <router-view />
+    <router-view v-if="isLoginTryCommited"/>
   </v-app>
 </template>
 
@@ -29,6 +29,8 @@ import { getLoggedInUser } from '@/db-service/Users/queries';
 export default class App extends Vue {
   private storeModule = getModule(StoreModule, this.$store);
 
+  isLoginTryCommited = false;
+
   /* eslint-disable */
   public mounted() {
     const userName: string | null = localStorage.getItem('userName');
@@ -45,11 +47,14 @@ export default class App extends Vue {
         if (data.data.loggedInUser !== undefined) {
           const loggedInUsers: User[] = data.data.loggedInUser.nodes;
           if (loggedInUsers.length !== 0) {
-            const loggedInUser: User = loggedInUsers[0];
-            this.storeModule.setUserId(loggedInUser.id.toString());
+            this.storeModule.setUserId(loggedInUsers[0].id.toString());
+            const currentRoute = this.$router.currentRoute.path;
+            this.$router.back();
           }
         }
-      });
+      }).finally(() => {this.isLoginTryCommited = true;});
+    } else {
+      this.isLoginTryCommited = true;
     }
   }
  /* eslint-enable */

@@ -1,7 +1,14 @@
 <template>
   <v-card class="card">
     <img class="logo" :src="require('@/assets/images/login-title.png')"/>
-    <v-form class="form">
+    <div v-if="$apollo.loading" class="loading-wrapper">
+      <v-progress-circular
+                           indeterminate
+                           color="primary"
+                           :size="40" />
+      <h5>מנסה להתחבר</h5>
+    </div>
+    <v-form class="form" v-else>
         <v-text-field
         single-line
         outlined
@@ -23,13 +30,7 @@
         label="זכור אותי"
         v-model="rememberLogin"/>
         <h5 class='error-message'>{{this.errorMessage}}</h5>
-        <v-progress-circular v-if="$apollo.loading"
-                           indeterminate
-                           color="primary"
-                           class="progress-bar"
-                           :size="40" />
         <v-btn
-        v-else
         class="login-button"
         @click="login">
             התחבר
@@ -75,8 +76,7 @@ export default class Login extends Vue {
       if (data.data.loggedInUser !== undefined) {
         const loggedInUsers: User[] = data.data.loggedInUser.nodes;
         if (loggedInUsers.length !== 0) {
-          const loggedInUser: User = loggedInUsers[0];
-          this.storeModule.setUserId(loggedInUser.id.toString());
+          this.storeModule.setUserId(loggedInUsers[0].id.toString());
           if (this.rememberLogin) {
             localStorage.setItem('userName', this.userName);
             localStorage.setItem('password', this.password);
@@ -95,8 +95,8 @@ export default class Login extends Vue {
 <style scoped>
   .card {
     border: black solid 0.5px;
-    width: 30vw;
-    height: 80vh;
+    width: 25vw;
+    height: 75vh;
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -107,7 +107,7 @@ export default class Login extends Vue {
       margin: 0 auto;
   }
   .form {
-    margin: 1vh 2vw;
+    margin: 0 2vw;
     display: flex;
     flex-direction: column;
   }
@@ -120,7 +120,11 @@ export default class Login extends Vue {
     text-align: center;
     margin-bottom: 2vh;
   }
-  .progress-bar {
-    margin: auto;
+  .loading-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 </style>

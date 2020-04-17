@@ -4,9 +4,13 @@ import VueRouter, { RouteConfig } from 'vue-router';
 
 import StoreModule from '@/store/storeModule';
 import store from '@/store';
+import apollo from '@/plugins/apollo';
+import Try from '@/views/Try.vue';
 import Login from '@/views/Login.vue';
 import Calendar from '@/views/Calendar.vue';
 import Downloads from '@/views/Downloads.vue';
+import { getLoggedInUser } from '@/db-service/Users/queries';
+import User from '@/models/User';
 
 Vue.use(VueRouter);
 
@@ -16,6 +20,13 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     redirect: '/calendar',
+  },
+  {
+    path: '/news',
+    component: Try,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/login',
@@ -44,16 +55,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const userName: string | null = localStorage.getItem('userName');
-  const password: string | null = localStorage.getItem('password');
-
-  const loggedIn: boolean = userName !== null && password !== null;
-
   if (to.name === null) {
     next('/');
-  } else if (to.path === '/login' && loggedIn) {
-    next('/');
-  } else if (to.meta.requiresAuth && storeModule.userId === '' && !loggedIn) {
+  } else if (to.meta.requiresAuth && storeModule.userId === '') {
     next('/login');
   } else {
     next();
