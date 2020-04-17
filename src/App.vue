@@ -37,21 +37,20 @@ export default class App extends Vue {
 
     if (userName !== null && password !== null) {
       this.$apollo.query({
-      query: getLoggedInUser,
-      variables: {
-        userName,
-        password,
-      }
+        query: getLoggedInUser,
+        variables: {
+          userName,
+          password,
+        },
       }).then((data) => {
         if (data.data.loggedInUser !== undefined) {
           const loggedInUsers: User[] = data.data.loggedInUser.nodes;
           if (loggedInUsers.length !== 0) {
             this.storeModule.setUserId(loggedInUsers[0].id.toString());
-            const currentRoute = this.$router.currentRoute.path;
             this.$router.back();
           }
         }
-      }).finally(() => {this.isLoginTryCommited = true;});
+      }).finally(() => { this.isLoginTryCommited = true; });
     } else {
       this.isLoginTryCommited = true;
     }

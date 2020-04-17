@@ -4,13 +4,10 @@ import VueRouter, { RouteConfig } from 'vue-router';
 
 import StoreModule from '@/store/storeModule';
 import store from '@/store';
-import apollo from '@/plugins/apollo';
 import Try from '@/views/Try.vue';
 import Login from '@/views/Login.vue';
 import Calendar from '@/views/Calendar.vue';
 import Downloads from '@/views/Downloads.vue';
-import { getLoggedInUser } from '@/db-service/Users/queries';
-import User from '@/models/User';
 
 Vue.use(VueRouter);
 
