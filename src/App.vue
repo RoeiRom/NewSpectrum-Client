@@ -31,7 +31,6 @@ export default class App extends Vue {
 
   isLoginTryCommited = false;
 
-  /* eslint-disable */
   public mounted() {
     const userName: string | null = localStorage.getItem('userName');
     const password: string | null = localStorage.getItem('password');
@@ -57,7 +56,6 @@ export default class App extends Vue {
       this.isLoginTryCommited = true;
     }
   }
- /* eslint-enable */
 
   get isLoggedIn() {
     const isUserLogged: boolean = this.storeModule.userId !== '';
