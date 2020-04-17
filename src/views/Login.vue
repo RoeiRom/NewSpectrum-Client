@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { getModule } from 'vuex-module-decorators';
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 import StoreModule from '@/store/storeModule';
 import { getLoggedInUser } from '@/db-service/Users/queries';
