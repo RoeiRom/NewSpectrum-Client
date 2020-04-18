@@ -4,6 +4,7 @@ import VueRouter, { RouteConfig } from 'vue-router';
 
 import StoreModule from '@/store/storeModule';
 import store from '@/store';
+import Login from '@/views/Login.vue';
 import Calendar from '@/views/Calendar.vue';
 import Downloads from '@/views/Downloads.vue';
 
@@ -12,6 +13,14 @@ Vue.use(VueRouter);
 const storeModule = getModule(StoreModule, store);
 
 const routes: RouteConfig[] = [
+  {
+    path: '/',
+    redirect: '/calendar',
+  },
+  {
+    path: '/login',
+    component: Login,
+  },
   {
     path: '/calendar',
     component: Calendar,
