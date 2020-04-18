@@ -8,7 +8,7 @@
       </v-container>
   </v-app>
   <v-app v-else>
-    <Login v-if="isLoginTryCommited"/>
+    <router-view v-if="isLoginTryCommited"/>
   </v-app>
 </template>
 
@@ -16,16 +16,14 @@
 import { getModule } from 'vuex-module-decorators';
 import { Component, Vue } from 'vue-property-decorator';
 
-import User from '@/models/User';
 import StoreModule from '@/store/storeModule';
-import Login from '@/components/AppComponents/Login.vue';
 import Navbar from '@/components/AppComponents/Navbar.vue';
+import User from '@/models/User';
 import { getLoggedInUser } from '@/db-service/Users/queries';
 
 @Component({
   components: {
     Navbar,
-    Login,
   },
 })
 export default class App extends Vue {
@@ -59,7 +57,8 @@ export default class App extends Vue {
   }
 
   get isLoggedIn() {
-    return this.storeModule.userId !== '';
+    const isUserLogged: boolean = this.storeModule.userId !== '';
+    return isUserLogged;
   }
 }
 </script>

@@ -24,10 +24,16 @@ const routes: RouteConfig[] = [
   {
     path: '/calendar',
     component: Calendar,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/downloads',
     component: Downloads,
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];
 
@@ -38,10 +44,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/' && storeModule.userId !== '') {
-    next('/calendar');
-  } else if (to.path !== '/' && (to.name === null || storeModule.userId === '')) {
+  if (to.name === null) {
     next('/');
+  } else if (to.meta.requiresAuth && storeModule.userId === '') {
+    next('/login');
   } else {
     next();
   }
