@@ -4,6 +4,7 @@ import VueRouter, { RouteConfig } from 'vue-router';
 
 import StoreModule from '@/store/storeModule';
 import store from '@/store';
+import Try from '@/views/Try.vue';
 import Login from '@/views/Login.vue';
 import Calendar from '@/views/Calendar.vue';
 import Downloads from '@/views/Downloads.vue';
@@ -16,6 +17,13 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     redirect: '/calendar',
+  },
+  {
+    path: '/news',
+    component: Try,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/login',
