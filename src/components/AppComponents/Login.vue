@@ -81,7 +81,7 @@ export default class Login extends Vue {
             localStorage.setItem('userName', this.userName);
             localStorage.setItem('password', this.password);
           }
-          this.$router.replace('/');
+          this.$router.replace('/calendar');
         } else {
           this.errorMessage = worngAuthMessage;
         }
