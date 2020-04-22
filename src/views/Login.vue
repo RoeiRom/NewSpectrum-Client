@@ -17,14 +17,14 @@
         v-model="userName"
         />
         <v-text-field
-        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-        @click:append="showPassword = !showPassword"
-        :type="showPassword ? 'text' : 'password'"
-        single-line
-        outlined
-        prepend-inner-icon="mdi-key-outline"
-        placeholder="הזן סיסמא"
-        v-model="password"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="showPassword = !showPassword"
+          :type="showPassword ? 'text' : 'password'"
+          single-line
+          outlined
+          prepend-inner-icon="mdi-key-outline"
+          placeholder="הזן סיסמא"
+          v-model="password"
         />
         <v-checkbox
         label="זכור אותי"
@@ -73,7 +73,7 @@ export default class Login extends Vue {
         password: this.password,
       },
     }).then((data) => {
-      if (data.data.loggedInUser !== undefined) {
+      if (data.data !== undefined && data.data.loggedInUser !== undefined) {
         const loggedInUsers: User[] = data.data.loggedInUser.nodes;
         if (loggedInUsers.length !== 0) {
           this.storeModule.setUserId(loggedInUsers[0].id.toString());
