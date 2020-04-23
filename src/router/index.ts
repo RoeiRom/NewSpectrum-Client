@@ -7,6 +7,7 @@ import store from '@/store';
 import Login from '@/views/Login.vue';
 import Calendar from '@/views/Calendar.vue';
 import Downloads from '@/views/Downloads.vue';
+import FoodOrder from '../views/FoodOrder.vue';
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,10 @@ const routes: RouteConfig[] = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '/orderFood',
+    component: FoodOrder,
   },
 ];
 
