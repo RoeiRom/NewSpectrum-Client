@@ -1,30 +1,34 @@
 <template>
-    <v-container>
-        <v-row>
-            <v-col cols="7">
+    <v-container class="postsContainerStyle">
+        <v-row justify="center">
+            <v-col cols="6">
                 <v-text-field
                         clearable
                         label="יצירת פוסט"
-                        placeholder="מח חדש?"
                         outlined
+                        placeholder="מח חדש?"
                         type="text"
-                        v-model="postContent" >
+                        v-model="postContent">
                     <template v-slot:prepend>
                         <v-icon>mdi-account-circle</v-icon>
                     </template>
                     <template v-slot:append>
                         <v-fade-transition leave-absolute>
                             <v-progress-circular
-                                    color="info"
+                                    color="primary"
                                     indeterminate
                                     size="24"
                                     v-if="loading"
                             ></v-progress-circular>
-                            <img alt="" src="@/assets/images/logo_icon.png" v-else
-                                 class="postInputIconStyle"/>
+                            <img alt="" src="@/assets/images/logo_icon.png"
+                                 width="24" height="24"
+                                 v-else/>
                         </v-fade-transition>
                     </template>
                 </v-text-field>
+            </v-col>
+            <v-col cols="1" class="postBtnStyle">
+                <v-btn @click="publishPost"> פרסמ/י</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -36,6 +40,14 @@ import { Component, Vue } from 'vue-property-decorator';
     @Component({})
 export default class NewsCreator extends Vue {
         postContent = '';
+
+        loading = false;
+
+        publishPost(): void {
+          this.postContent = 'מעלה פוסט...';
+          this.loading = true;
+          setTimeout(() => { this.loading = false; this.postContent = ''; }, 2500);
+        }
 }
 </script>
 
@@ -43,5 +55,11 @@ export default class NewsCreator extends Vue {
     .postInputIconStyle {
         height: 4vh;
         width: 1.5vw;
+    }
+    .postsContainerStyle {
+        height: 14vh;
+    }
+    .postBtnStyle {
+        padding-top: 3vh;
     }
 </style>
