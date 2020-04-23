@@ -3,7 +3,8 @@
         <v-row justify="center">
             <v-col cols="6">
                 <v-text-field
-                        clearable
+                        :clearable="clearable"
+                        :disabled="disabled"
                         label="יצירת פוסט"
                         outlined
                         placeholder="מח חדש?"
@@ -43,10 +44,16 @@ export default class NewsCreator extends Vue {
 
         loading = false;
 
+        clearable = true;
+
+        disabled = false;
+
         publishPost(): void {
           this.postContent = 'מעלה פוסט...';
           this.loading = true;
-          setTimeout(() => { this.loading = false; this.postContent = ''; }, 2500);
+          this.clearable = false;
+          this.disabled = true;
+          setTimeout(() => { this.loading = false; this.postContent = ''; this.clearable = true; this.disabled = false; }, 2500);
         }
 }
 </script>
