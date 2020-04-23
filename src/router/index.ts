@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import News from '@/views/News.vue';
 import Calendar from '../views/Calendar.vue';
 import Downloads from '../views/Downloads.vue';
 import FoodOrder from '../views/FoodOrder.vue';
@@ -22,6 +23,10 @@ const routes = [
   {
     path: '/orderFood',
     component: FoodOrder,
+  },
+  {
+    path: '/news',
+    component: News,
   },
 ];
 
