@@ -46,10 +46,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import StoreModule from '@/store/storeModule';
 import { getLoggedInUser } from '@/db-service/Users/queries';
 import User from '@/models/User';
+import * as errorMessages from '@/utils/errorMessages';
 
-const worngAuthMessage = 'אוף! שם המשתמש ו/או הסיסמא לא נכונים. פנה למנהל המערכת כדי לשחזר אותם';
-
-const dbErrorMessage = 'אופס! יש תקלה במערכת, נסה שוב מאוחר יותר';
 
 @Component
 export default class Login extends Vue {
@@ -76,18 +74,18 @@ export default class Login extends Vue {
       if (data.data !== undefined && data.data.loggedInUser !== undefined) {
         const loggedInUsers: User[] = data.data.loggedInUser.nodes;
         if (loggedInUsers.length !== 0) {
-          this.storeModule.setUserId(loggedInUsers[0].id.toString());
+          this.storeModule.setUserId(loggedInUsers[0]);
           if (this.rememberLogin) {
             localStorage.setItem('userName', this.userName);
             localStorage.setItem('password', this.password);
           }
           this.$router.replace('/');
         } else {
-          this.errorMessage = worngAuthMessage;
+          this.errorMessage = errorMessages.worngAuthMessage;
         }
       }
     })
-      .catch(() => { this.errorMessage = dbErrorMessage; });
+      .catch(() => { this.errorMessage = errorMessages.dbErrorMessage; });
   }
 }
 </script>
@@ -95,8 +93,8 @@ export default class Login extends Vue {
 <style scoped>
   .card {
     border: black solid 0.5px;
-    width: 25vw;
-    height: 75vh;
+    width: fit-content;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -117,6 +115,7 @@ export default class Login extends Vue {
   }
   .error-message {
     color: red;
+    height: 6vh;
     text-align: center;
     margin-bottom: 2vh;
   }

@@ -43,10 +43,10 @@ export default class App extends Vue {
           password,
         },
       }).then((data) => {
-        if (data.data.loggedInUser !== undefined) {
+        if (data.data !== undefined && data.data.loggedInUser !== undefined) {
           const loggedInUsers: User[] = data.data.loggedInUser.nodes;
           if (loggedInUsers.length !== 0) {
-            this.storeModule.setUserId(loggedInUsers[0].id.toString());
+            this.storeModule.setUserId(loggedInUsers[0]);
             this.$router.back();
           }
         }
@@ -56,9 +56,8 @@ export default class App extends Vue {
     }
   }
 
-  get isLoggedIn() {
-    const isUserLogged: boolean = this.storeModule.userId !== '';
-    return isUserLogged;
+  get isLoggedIn(): boolean {
+    return !this.storeModule.userId;
   }
 }
 </script>
