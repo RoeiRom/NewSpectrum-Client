@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { getModule } from 'vuex-module-decorators';
 import VueRouter, { RouteConfig } from 'vue-router';
 
-import StoreModule from '@/store/storeModule';
+import StoreModule, { defaultUser } from '@/store/storeModule';
 import store from '@/store';
 import Login from '@/views/Login.vue';
 import Calendar from '@/views/Calendar.vue';
@@ -39,6 +39,9 @@ const routes: RouteConfig[] = [
   {
     path: '/orderFood',
     component: FoodOrder,
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];
 
@@ -51,7 +54,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.name === null) {
     next('/');
-  } else if (to.meta.requiresAuth && !storeModule.userId) {
+  } else if (to.meta.requiresAuth && storeModule.user === defaultUser) {
     next('/login');
   } else {
     next();

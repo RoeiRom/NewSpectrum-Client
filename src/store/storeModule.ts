@@ -3,13 +3,15 @@ import {
 } from 'vuex-module-decorators';
 import User from '@/models/User';
 
+export const defaultUser: User = { id: -1, name: '' };
+
 @Module({
   name: 'StoreModule',
 })
 export default class StoreModule extends VuexModule {
     displayProgressBar = false;
 
-    userId: User | undefined = undefined;
+    user: User = defaultUser;
 
     @Mutation
     setDisplayProgressBarMutation(newState: boolean) {
@@ -22,12 +24,12 @@ export default class StoreModule extends VuexModule {
     }
 
     @Mutation
-    setUserIdMutation(newState: User) {
-      this.userId = newState;
+    setUserMutation(newState: User) {
+      this.user = newState;
     }
 
     @Action
-    setUserId(newState: User) {
-      this.context.commit('setUserIdMutation', newState);
+    setUser(newState: User) {
+      this.context.commit('setUserMutation', newState);
     }
 }

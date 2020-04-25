@@ -16,7 +16,7 @@
 import { getModule } from 'vuex-module-decorators';
 import { Component, Vue } from 'vue-property-decorator';
 
-import StoreModule from '@/store/storeModule';
+import StoreModule, { defaultUser } from '@/store/storeModule';
 import Navbar from '@/components/AppComponents/Navbar.vue';
 import User from '@/models/User';
 import { getLoggedInUser } from '@/db-service/Users/queries';
@@ -46,7 +46,7 @@ export default class App extends Vue {
         if (data.data !== undefined && data.data.loggedInUser !== undefined) {
           const loggedInUsers: User[] = data.data.loggedInUser.nodes;
           if (loggedInUsers.length !== 0) {
-            this.storeModule.setUserId(loggedInUsers[0]);
+            this.storeModule.setUser(loggedInUsers[0]);
             this.$router.back();
           }
         }
@@ -56,8 +56,12 @@ export default class App extends Vue {
     }
   }
 
+  get user(): User {
+    return this.storeModule.user;
+  }
+
   get isLoggedIn(): boolean {
-    return !this.storeModule.userId;
+    return this.user !== defaultUser;
   }
 }
 </script>

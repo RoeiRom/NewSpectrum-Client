@@ -1,7 +1,7 @@
 <template>
   <v-card class="card">
     <img class="logo" :src="require('@/assets/images/login-title.png')"/>
-    <div v-if="$apollo.loading" class="loading-wrapper">
+    <div v-if="tryLogin" class="loading-wrapper">
       <v-progress-circular
                            indeterminate
                            color="primary"
@@ -41,13 +41,12 @@
 
 <script lang="ts">
 import { getModule } from 'vuex-module-decorators';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import StoreModule from '@/store/storeModule';
 import { getLoggedInUser } from '@/db-service/Users/queries';
 import User from '@/models/User';
 import * as errorMessages from '@/utils/errorMessages';
-
 
 @Component
 export default class Login extends Vue {
@@ -61,9 +60,12 @@ export default class Login extends Vue {
 
   private errorMessage = '';
 
+  private tryLogin = false;
+
   private storeModule = getModule(StoreModule, this.$store);
 
   login() {
+    this.tryLogin = true;
     this.$apollo.query({
       query: getLoggedInUser,
       variables: {
@@ -74,7 +76,7 @@ export default class Login extends Vue {
       if (data.data !== undefined && data.data.loggedInUser !== undefined) {
         const loggedInUsers: User[] = data.data.loggedInUser.nodes;
         if (loggedInUsers.length !== 0) {
-          this.storeModule.setUserId(loggedInUsers[0]);
+          this.storeModule.setUser(loggedInUsers[0]);
           if (this.rememberLogin) {
             localStorage.setItem('userName', this.userName);
             localStorage.setItem('password', this.password);
@@ -85,7 +87,8 @@ export default class Login extends Vue {
         }
       }
     })
-      .catch(() => { this.errorMessage = errorMessages.dbErrorMessage; });
+      .catch(() => { this.errorMessage = errorMessages.dbErrorMessage; })
+      .finally(() => { this.tryLogin = false; });
   }
 }
 </script>
@@ -93,16 +96,16 @@ export default class Login extends Vue {
 <style scoped>
   .card {
     border: black solid 0.5px;
-    width: fit-content;
-    height: fit-content;
     display: flex;
     flex-direction: column;
     margin: auto;
     padding: 2vh 0;
+    height: 70vh;
+    width: 20vw;
   }
   .logo {
-      width: fit-content;
       margin: 0 auto;
+      width: 80%;
   }
   .form {
     margin: 0 2vw;
@@ -115,7 +118,6 @@ export default class Login extends Vue {
   }
   .error-message {
     color: red;
-    height: 6vh;
     text-align: center;
     margin-bottom: 2vh;
   }
