@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { getModule } from 'vuex-module-decorators';
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 import StoreModule from '@/store/storeModule';
 import { getLoggedInUser } from '@/db-service/Users/queries';
@@ -100,7 +100,7 @@ export default class Login extends Vue {
     flex-direction: column;
     margin: auto;
     padding: 2vh 0;
-    height: 70vh;
+    height: 75vh;
     width: 20vw;
   }
   .logo {
