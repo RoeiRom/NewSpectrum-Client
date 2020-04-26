@@ -20,6 +20,7 @@
                     class="textField"
                     placeholder="שם האירוע"
                     color="black"
+                    v-model="eventInput"
                 ></v-text-field>
                 <p>קטגוריה</p>
                 <v-select
@@ -37,7 +38,8 @@
                         color="black"
                     ></v-switch>
                     <v-spacer></v-spacer>
-                    <v-btn>
+                    <v-btn
+                    @click="addEvent()">
                         שמור אירוע
                     </v-btn>
                 </v-card-actions>
@@ -51,6 +53,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import Category from '@/models/Category';
 import { AllCategories } from '@/db-service/Categories/queries';
+import { createEvent } from '@/db-service/Events/mutations';
 
 @Component({
   apollo: {
@@ -60,12 +63,28 @@ import { AllCategories } from '@/db-service/Categories/queries';
   },
 })
 export default class AddEvent extends Vue {
-  get categories(): Category[] {
-    if (this.$data.allCategories !== undefined) {
-      return this.$data.allCategories.nodes;
+    eventInput = '';
+
+    get categories(): Category[] {
+      if (this.$data.allCategories !== undefined) {
+        return this.$data.allCategories.nodes;
+      }
+      return [];
     }
-    return [];
-  }
+
+    addEvent(): void {
+      this.$apollo
+        .mutate({
+          mutation: createEvent,
+          variables: {
+            title: this.eventInput,
+            category: 'birthday',
+            startDate: '2020-04-28',
+            endDate: '2020-04-30',
+            isAllDay: true,
+          },
+        });
+    }
 }
 </script>
 
