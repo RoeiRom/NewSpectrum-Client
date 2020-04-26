@@ -18,14 +18,13 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-card class="stepperCardStyle d-flex-justify-center" color="grey lighten-2" >
-
             <OrderPlace />
         </v-card>
       </v-stepper-content>
 
       <v-stepper-content step="2">
         <v-card color="grey lighten-2" class="stepperCardStyle"></v-card>
-
+        <UsersOrderStatus/>
       </v-stepper-content>
 
       <v-stepper-content step="3">
@@ -33,19 +32,21 @@
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
-</template>p
+</template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import OrderPlace from '@/components/FoodOrderComponents/OrderPlace.vue';
+import UsersOrderStatus from '@/components/FoodOrderComponents/UsersOrderStatus.vue';
 
 @Component({
   components: {
     OrderPlace,
+    UsersOrderStatus,
   },
 })
 export default class FoodOrder extends Vue {
-  stepperStatus = '1';
+  stepperStatus = '2';
 
   /* eslint-disable */
   images = [
