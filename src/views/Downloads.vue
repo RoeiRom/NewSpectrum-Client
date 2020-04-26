@@ -43,11 +43,9 @@ export default class Downloads extends Vue {
     return [];
   }
 
-  /* eslint-disable */
-  mounted() {
+  public mounted() {
     this.storeModule.setDisplayProgressBar(true);
   }
-  /* eslint-enable */
 
   @Watch('$apollo.loading')
   // eslint-disable-next-line
