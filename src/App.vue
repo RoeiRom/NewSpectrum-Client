@@ -1,24 +1,69 @@
 <template>
-  <v-app>
-    <Navbar />
+  <v-app v-if="isLoggedIn">
+    <Navbar/>
       <v-container>
         <div class="content">
           <router-view />
         </div>
       </v-container>
   </v-app>
+  <v-app v-else>
+    <router-view v-if="isLoginTryCommited"/>
+  </v-app>
 </template>
 
 <script lang="ts">
+import { getModule } from 'vuex-module-decorators';
 import { Component, Vue } from 'vue-property-decorator';
-import Navbar from './components/AppComponents/Navbar.vue';
+
+import StoreModule, { defaultUser } from '@/store/storeModule';
+import Navbar from '@/components/AppComponents/Navbar.vue';
+import User from '@/models/User';
+import { getLoggedInUser } from '@/db-service/Users/queries';
 
 @Component({
   components: {
     Navbar,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  private storeModule = getModule(StoreModule, this.$store);
+
+  isLoginTryCommited = false;
+
+  public mounted() {
+    const userName: string | null = localStorage.getItem('userName');
+    const password: string | null = localStorage.getItem('password');
+
+    if (userName !== null && password !== null) {
+      this.$apollo.query({
+        query: getLoggedInUser,
+        variables: {
+          userName,
+          password,
+        },
+      }).then((data) => {
+        if (data.data !== undefined && data.data.loggedInUser !== undefined) {
+          const loggedInUsers: User[] = data.data.loggedInUser.nodes;
+          if (loggedInUsers.length !== 0) {
+            this.storeModule.setUser(loggedInUsers[0]);
+            this.$router.back();
+          }
+        }
+      }).finally(() => { this.isLoginTryCommited = true; });
+    } else {
+      this.isLoginTryCommited = true;
+    }
+  }
+
+  get user(): User {
+    return this.storeModule.user;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.user !== defaultUser;
+  }
+}
 </script>
 
 <style scoped>
