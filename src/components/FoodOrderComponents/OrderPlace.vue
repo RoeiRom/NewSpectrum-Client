@@ -43,7 +43,7 @@
         <!-- Footer & Buttons -->
         <v-row justify-md="end" no-gutters
                v-if="chosenPlaceIndex !== undefined && chosenPlaceIndex !== -1">
-            <v-btn @click="locationWasChosen">
+            <v-btn @click="onNextButtonClicked">
                 המשך
             </v-btn>
         </v-row>
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import Place from '@/models/Place';
 
@@ -67,6 +67,9 @@ import { createFoodPlace } from '@/db-service/FoodOrder/mutations';
   },
 })
 export default class OrderPlace extends Vue {
+        @Prop({ type: Function })
+        onNextButtonClicked!: Function;
+
         placeInput = '';
 
         chosenPlaceIndex = -1;
@@ -96,11 +99,6 @@ export default class OrderPlace extends Vue {
 
         clearPlaceInput(): void {
           this.placeInput = '';
-        }
-
-        locationWasChosen(): void {
-          // eslint-disable-next-line
-          alert(`Place ${this.places[this.chosenPlaceIndex].name} has been chosen!`);
         }
 }
 </script>

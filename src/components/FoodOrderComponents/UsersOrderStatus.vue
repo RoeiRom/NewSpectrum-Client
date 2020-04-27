@@ -2,15 +2,15 @@
     <v-container>
         <v-checkbox
         :v-for="user in users"
-        :label="user.name"
-        :v-model="this.didUserOrderToday(user)"/>
+        :value="this.didUserOrderToday(user)"/>
     </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
 import { isToday } from 'date-fns';
+import { Component, Vue } from 'vue-property-decorator';
 
+import User from '@/models/User';
 import { AllUsers } from '@/db-service/Users/queries';
 
 @Component({
@@ -22,7 +22,7 @@ import { AllUsers } from '@/db-service/Users/queries';
   },
 })
 export default class UsersOrderStatus extends Vue {
-  get users(): any[] {
+  get users(): User[] {
     if (this.$data.allUsers !== undefined) {
       return this.$data.allUsers.nodes;
     }
@@ -30,8 +30,9 @@ export default class UsersOrderStatus extends Vue {
   }
 
   /* eslint-disable */
-  private didUserOrderToday(user: any): boolean {
-    return isToday(new Date(user.lastOrderDate));
+  private didUserOrderToday(user: User): boolean {
+    return user && user.lastFoodOrder !== undefined && 
+      isToday(new Date(user.lastFoodOrder));
   }
   /* eslint-enable */
 }

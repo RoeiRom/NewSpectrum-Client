@@ -18,13 +18,14 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-card class="stepperCardStyle d-flex-justify-center" color="grey lighten-2" >
-            <OrderPlace />
+            <OrderPlace :onNextButtonClicked="moveToTheNextStep" />
         </v-card>
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <v-card color="grey lighten-2" class="stepperCardStyle"></v-card>
-        <UsersOrderStatus/>
+        <v-card class="stepperCardStyle d-flex-justify-center" color="grey lighten-2" >
+            <UsersOrderStatus />
+        </v-card>
       </v-stepper-content>
 
       <v-stepper-content step="3">
@@ -46,7 +47,7 @@ import UsersOrderStatus from '@/components/FoodOrderComponents/UsersOrderStatus.
   },
 })
 export default class FoodOrder extends Vue {
-  stepperStatus = '2';
+  stepperStatus = '1';
 
   /* eslint-disable */
   images = [
@@ -56,6 +57,10 @@ export default class FoodOrder extends Vue {
     require("@/assets/images/FoodOrderImages/Sushi.png")
   ];
   /* eslint-enable */
+
+  private moveToTheNextStep(): void {
+    this.stepperStatus = (+this.stepperStatus + 1).toString();
+  }
 }
 </script>
 

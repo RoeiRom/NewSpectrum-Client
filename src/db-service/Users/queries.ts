@@ -8,7 +8,7 @@ query allUsers {
         nodes {
           id
           name
-          lastOrderDate
+          lastFoodOrder
       }
     }
   }  
