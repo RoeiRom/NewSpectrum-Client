@@ -36,6 +36,7 @@
                     <v-switch
                         class="switch"
                         color="black"
+                        v-model="isAllDay"
                     ></v-switch>
                     <v-spacer></v-spacer>
                     <v-btn
@@ -43,6 +44,44 @@
                         שמור אירוע
                     </v-btn>
                 </v-card-actions>
+                <v-menu
+                  :close-on-content-click="false"
+                  :nudge-left="80"
+                  transition="scale-transition"
+                  offset-y
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      label="תאריך התחלה"
+                      prepend-icon="event"
+                      readonly
+                      :value="startDate"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="startDate"
+                  ></v-date-picker>
+                </v-menu>
+                <v-menu
+                  :close-on-content-click="false"
+                  :nudge-left="80"
+                  transition="scale-transition"
+                  offset-y
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      label="תאריך סיום"
+                      prepend-icon="event"
+                      readonly
+                      :value="endDate"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="endDate"
+                  ></v-date-picker>
+                </v-menu>
             </v-card>
         </v-app>
     </div>
@@ -65,6 +104,12 @@ import { createEvent } from '@/db-service/Events/mutations';
 export default class AddEvent extends Vue {
     eventInput = '';
 
+    isAllDay = false;
+
+    startDate = null;
+
+    endDate = null;
+
     get categories(): Category[] {
       if (this.$data.allCategories !== undefined) {
         return this.$data.allCategories.nodes;
@@ -73,17 +118,26 @@ export default class AddEvent extends Vue {
     }
 
     addEvent(): void {
-      this.$apollo
-        .mutate({
-          mutation: createEvent,
-          variables: {
-            title: this.eventInput,
-            category: 'birthday',
-            startDate: '2020-04-28',
-            endDate: '2020-04-30',
-            isAllDay: true,
-          },
-        });
+      if (this.eventInput && this.startDate) {
+        this.$apollo
+          .mutate({
+            mutation: createEvent,
+            variables: {
+              title: this.eventInput,
+              category: 'birthday',
+              startDate: this.startDate,
+              endDate: this.endDate,
+              isAllDay: this.isAllDay,
+            },
+          });
+
+        this.eventInput = '';
+        this.isAllDay = false;
+        this.startDate = null;
+        this.endDate = null;
+      } else {
+        alert('title, category and date fields are required');
+      }
     }
 }
 </script>
