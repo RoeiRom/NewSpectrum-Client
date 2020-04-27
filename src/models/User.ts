@@ -1,7 +1,7 @@
 interface User {
     id: number;
     name: string;
-    lastFoodOrder?: Date;
+    lastFoodOrder: Date;
 }
 
 export default User;

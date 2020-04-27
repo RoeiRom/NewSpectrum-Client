@@ -3,7 +3,7 @@ import {
 } from 'vuex-module-decorators';
 import User from '@/models/User';
 
-export const defaultUser: User = { id: -1, name: '' };
+export const defaultUser: User = { id: -1, name: '', lastFoodOrder: new Date() };
 
 @Module({
   name: 'StoreModule',

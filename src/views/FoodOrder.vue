@@ -24,7 +24,7 @@
 
       <v-stepper-content step="2">
         <v-card class="stepperCardStyle d-flex-justify-center" color="grey lighten-2" >
-            <UsersOrderStatus />
+            <UsersOrderStatus :onNextButtonClicked="moveToTheNextStep" />
         </v-card>
       </v-stepper-content>
 

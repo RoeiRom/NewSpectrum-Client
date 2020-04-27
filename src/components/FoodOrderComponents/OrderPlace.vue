@@ -26,7 +26,7 @@
             <v-col cols="3" class="placeListsCol">
                 <v-progress-circular :size="40" color="primary"
                                      indeterminate v-if="$apollo.loading"/>
-                <v-container class="overflow-y-auto placesContainer" v-if="!$apollo.loading">
+                <v-container class="overflow-y-auto placesContainer" v-else>
                     <v-list shaped="true" v-scroll>
                         <v-list-item-group color="primary" v-model="chosenPlaceIndex">
                             <v-list-item :key="place.id" v-for="place in places">
