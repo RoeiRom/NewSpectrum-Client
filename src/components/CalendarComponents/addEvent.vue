@@ -24,12 +24,13 @@
                 ></v-text-field>
                 <p>קטגוריה</p>
                 <v-select
-                    :items="items"
+                    :items="categories"
                     filled
                     background-color="red"
                     color="grey"
                     class="select"
                     placeholder="בחר אירוע"
+                    v-model="selectInput"
                 ></v-select>
                 <v-card-actions>
                 <v-menu
@@ -122,9 +123,15 @@ export default class AddEvent extends Vue {
 
     isEndDateMenuOpen = false;
 
+    selectInput = '';
+
     get categories(): Category[] {
       if (this.$data.allCategories !== undefined) {
-        return this.$data.allCategories.nodes;
+        const categoryNames = [];
+        for (let i = 0; i < this.$data.allCategories.nodes.length; i += 1) {
+          categoryNames.push(this.$data.allCategories.nodes[i].tag);
+        }
+        return categoryNames;
       }
       return [];
     }
@@ -148,13 +155,14 @@ export default class AddEvent extends Vue {
     }
 
     addEvent(): void {
+      this.eventInput = this.selectInput;
       if (this.eventInput && this.startDate) {
         this.$apollo
           .mutate({
             mutation: createEvent,
             variables: {
               title: this.eventInput,
-              category: 'birthday',
+              category: this.selectInput,
               startDate: this.startDate,
               endDate: this.endDate,
               isAllDay: this.isAllDay,
@@ -165,6 +173,7 @@ export default class AddEvent extends Vue {
         this.isAllDay = false;
         this.startDate = null;
         this.endDate = null;
+        this.selectInput = '';
       } else {
         alert('title, category and date fields are required');
       }
@@ -191,7 +200,7 @@ export default class AddEvent extends Vue {
     width: 14vw;
   }
   .select {
-    width: 17vw;
+    width: 10vw;
   }
   .exitButton {
       float: left;
