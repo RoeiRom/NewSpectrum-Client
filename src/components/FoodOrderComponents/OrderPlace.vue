@@ -41,7 +41,7 @@
         </v-row>
 
         <!-- Footer & Buttons -->
-        <v-row justify-md="end" no-gutters
+        <v-row justify="end" no-gutters class="footer"
                v-if="chosenPlaceIndex !== undefined && chosenPlaceIndex !== -1">
             <v-btn @click="passToNextStep">
                 המשך
@@ -112,5 +112,8 @@ export default class OrderPlace extends Vue {
   }
   .placesContainer {
     max-height:28vh;
+  }
+  .footer {
+    margin: 0 2vw;
   }
 </style>

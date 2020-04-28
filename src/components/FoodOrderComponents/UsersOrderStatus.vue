@@ -1,5 +1,9 @@
 <template>
-  <v-content>
+  <v-content v-if="$apollo.loading" class="loading-warpper">
+    <v-progress-circular :size="40" color="primary"
+      indeterminate/>
+  </v-content>
+  <v-content v-else>
     <v-container class="container">
         <v-checkbox
         class="checkbox"
@@ -15,19 +19,23 @@
           <v-btn @click="onNextButtonClicked">
           המשך
           </v-btn>
+          <h5 class='error-message'>{{this.errorMessage}}</h5>
     </v-footer>
   </v-content>
 </template>
 
 <script lang="ts">
-import { isToday, format } from 'date-fns';
+import { isToday } from 'date-fns';
 import { getModule } from 'vuex-module-decorators';
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import {
+  Component, Vue, Prop,
+} from 'vue-property-decorator';
 
 import User from '@/models/User';
 import StoreModule from '@/store/storeModule';
 import { AllUsers } from '@/db-service/Users/queries';
 import { updateLastFoodOrder } from '@/db-service/Users/mutations';
+import { dbErrorMessage } from '@/utils/errorMessages';
 
 interface UserOrderStatus {
   name: string;
@@ -48,6 +56,8 @@ export default class UsersOrderStatus extends Vue {
   passToNextStep!: Function;
 
   private ordersAmount = 0;
+
+  private errorMessage = '';
 
   private storeModule = getModule(StoreModule, this.$store);
 
@@ -93,7 +103,8 @@ export default class UsersOrderStatus extends Vue {
           lastFoodOrder: loggedInUserStatus.isOrderingToday ? new Date() : null,
         },
       })
-        .then(() => { this.passToNextStep(); });
+        .then(() => { this.passToNextStep(); })
+        .catch(() => { this.errorMessage = dbErrorMessage; });
     }
   }
 
@@ -106,11 +117,9 @@ export default class UsersOrderStatus extends Vue {
 <style scoped>
 .container {
     text-align: center;
-    height: 20vh;
+    height: 22vh;
     direction: ltr;
-    overflow: hidden;
-    justify-content: center;
-    margin: 2vh 2vw;
+    overflow: auto;
 }
 .checkbox {
   display: inline-block;
@@ -122,5 +131,17 @@ export default class UsersOrderStatus extends Vue {
   justify-content: space-between;
   align-items: center;
   margin: 1vh 2vw;
+}
+.error-message {
+  color: red;
+  position: fixed;
+}
+.loading-wrapper {
+  margin: auto;
+  text-align: center;
+}
+.error-wrapper {
+  margin: auto;
+  text-align: center;
 }
 </style>
