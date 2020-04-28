@@ -43,7 +43,7 @@
         <!-- Footer & Buttons -->
         <v-row justify-md="end" no-gutters
                v-if="chosenPlaceIndex !== undefined && chosenPlaceIndex !== -1">
-            <v-btn @click="onNextButtonClicked">
+            <v-btn @click="passToNextStep">
                 המשך
             </v-btn>
         </v-row>
@@ -68,7 +68,7 @@ import { createFoodPlace } from '@/db-service/FoodOrder/mutations';
 })
 export default class OrderPlace extends Vue {
         @Prop({ type: Function })
-        onNextButtonClicked!: Function;
+        passToNextStep!: Function;
 
         placeInput = '';
 

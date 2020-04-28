@@ -2,13 +2,14 @@
   <v-content>
     <v-container class="container">
         <v-checkbox
+        class="checkbox"
         :key="user.id" v-for="user in users"
         :label="user.name"
-        :disabled="user.isDisabled"
+        :disabled="!user.isLoggedInUser"
         v-model="user.isOrderingToday"
         @change="updateOrdersAmount(user.isOrderingToday)"/>
     </v-container>
-    <v-divider class="divider" />
+    <v-divider />
     <v-footer color="transparent" class="footer">
           <h5>{{`מספר מזמינים: ${this.ordersAmount}`}}</h5>
           <v-btn @click="onNextButtonClicked">
@@ -19,19 +20,18 @@
 </template>
 
 <script lang="ts">
-import { isToday } from 'date-fns';
+import { isToday, format } from 'date-fns';
 import { getModule } from 'vuex-module-decorators';
-import {
-  Component, Vue, Prop, Watch,
-} from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import User from '@/models/User';
 import StoreModule from '@/store/storeModule';
 import { AllUsers } from '@/db-service/Users/queries';
+import { updateLastFoodOrder } from '@/db-service/Users/mutations';
 
 interface UserOrderStatus {
   name: string;
-  isDisabled: boolean;
+  isLoggedInUser: boolean;
   isOrderingToday: boolean;
 }
 
@@ -45,7 +45,7 @@ interface UserOrderStatus {
 })
 export default class UsersOrderStatus extends Vue {
   @Prop({ type: Function })
-  onNextButtonClicked!: Function;
+  passToNextStep!: Function;
 
   private ordersAmount = 0;
 
@@ -58,7 +58,7 @@ export default class UsersOrderStatus extends Vue {
         const isLoggedInUser: boolean = this.isLoggedInUser(user);
         return {
           name: user.name,
-          isDisabled: !isLoggedInUser,
+          isLoggedInUser,
           isOrderingToday: UsersOrderStatus.isUserOrderingToday(user, isLoggedInUser),
         };
       });
@@ -82,6 +82,21 @@ export default class UsersOrderStatus extends Vue {
     return this.loggedInUser.id === user.id;
   }
 
+  private onNextButtonClicked(): void {
+    const loggedInUserStatus: UserOrderStatus | undefined = this.users
+      .find((user: UserOrderStatus) => user.isLoggedInUser);
+    if (loggedInUserStatus) {
+      this.$apollo.mutate({
+        mutation: updateLastFoodOrder,
+        variables: {
+          id: this.loggedInUser.id,
+          lastFoodOrder: loggedInUserStatus.isOrderingToday ? new Date() : null,
+        },
+      })
+        .then(() => { this.passToNextStep(); });
+    }
+  }
+
   static isUserOrderingToday(user: User, isLoggedInUser: boolean): boolean {
     return isLoggedInUser || isToday(new Date(user.lastFoodOrder));
   }
@@ -90,17 +105,22 @@ export default class UsersOrderStatus extends Vue {
 
 <style scoped>
 .container {
-    display: flex;
-    justify-content: space-around;
-    overflow-y: visible;
+    text-align: center;
+    height: 20vh;
+    direction: ltr;
+    overflow: hidden;
+    justify-content: center;
+    margin: 2vh 2vw;
 }
-.divider {
-  margin: 2vh 2vw;
+.checkbox {
+  display: inline-block;
+  margin: 0 1vw;
+  direction: rtl;
 }
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 2vw;
+  margin: 1vh 2vw;
 }
 </style>

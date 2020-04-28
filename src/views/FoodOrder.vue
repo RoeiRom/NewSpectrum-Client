@@ -18,13 +18,13 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-card class="stepperCardStyle d-flex-justify-center" color="grey lighten-2" >
-            <OrderPlace :onNextButtonClicked="moveToTheNextStep" />
+            <OrderPlace :passToNextStep="passToNextStep" />
         </v-card>
       </v-stepper-content>
 
       <v-stepper-content step="2">
         <v-card class="stepperCardStyle d-flex-justify-center" color="grey lighten-2" >
-            <UsersOrderStatus :onNextButtonClicked="moveToTheNextStep" />
+            <UsersOrderStatus :passToNextStep="passToNextStep" />
         </v-card>
       </v-stepper-content>
 
@@ -58,7 +58,7 @@ export default class FoodOrder extends Vue {
   ];
   /* eslint-enable */
 
-  private moveToTheNextStep(): void {
+  private passToNextStep(): void {
     this.stepperStatus = (+this.stepperStatus + 1).toString();
   }
 }
@@ -72,7 +72,7 @@ export default class FoodOrder extends Vue {
     justify-content: center;
 }
 .stepperImagesStyle {
-  width: 16vw;
+  width: 25%;
   height: 13vh;
 }
 .stepperCardStyle {
