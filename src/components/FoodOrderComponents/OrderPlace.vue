@@ -22,7 +22,7 @@
         </v-row>
 
         <!-- Places list -->
-        <v-row justify="center" no-gutters>
+        <v-row justify="center" no-gutters v-if="$apollo.error">
             <v-col cols="3" class="placeListsCol">
                 <v-progress-circular :size="40" color="primary"
                                      indeterminate v-if="$apollo.loading"/>
