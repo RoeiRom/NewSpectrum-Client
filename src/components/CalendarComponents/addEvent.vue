@@ -31,29 +31,17 @@
                     class="select"
                     placeholder="בחר אירוע"
                 ></v-select>
-                <v-card-actions class="cardActions">
-                    יום שלם
-                    <v-switch
-                        class="switch"
-                        color="black"
-                        v-model="isAllDay"
-                    ></v-switch>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                    @click="addEvent()">
-                        שמור אירוע
-                    </v-btn>
-                </v-card-actions>
+                <v-card-actions>
                 <v-menu
+                  v-model="isStartDateMenuOpen"
                   :close-on-content-click="false"
-                  :nudge-left="80"
+                  :nudge-left="250"
                   transition="scale-transition"
                   offset-y
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                      label="תאריך התחלה"
-                      prepend-icon="event"
+                      label="בחר תאריך התחלה"
                       readonly
                       :value="startDate"
                       v-on="on"
@@ -61,18 +49,22 @@
                   </template>
                   <v-date-picker
                     v-model="startDate"
-                  ></v-date-picker>
+                  >
+                    <v-btn color="primary" @click="cancelSelectedStartDate()">Cancel</v-btn>
+                    <v-btn color="primary" @click="saveSelectedStartDate()">OK</v-btn>
+                  </v-date-picker>
                 </v-menu>
+                <v-spacer class="dateSpacer"></v-spacer>
                 <v-menu
+                  v-model="isEndDateMenuOpen"
                   :close-on-content-click="false"
-                  :nudge-left="80"
+                  :nudge-left="250"
                   transition="scale-transition"
                   offset-y
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field
-                      label="תאריך סיום"
-                      prepend-icon="event"
+                      label="בחר תאריך סיום"
                       readonly
                       :value="endDate"
                       v-on="on"
@@ -80,8 +72,24 @@
                   </template>
                   <v-date-picker
                     v-model="endDate"
-                  ></v-date-picker>
+                  >
+                    <v-btn color="primary" @click="cancelSelectedEndDate()">Cancel</v-btn>
+                    <v-btn color="primary" @click="saveSelectedEndDate()">OK</v-btn>
+                  </v-date-picker>
                 </v-menu>
+                </v-card-actions>
+                <v-card-actions class="cardActions">
+                  יום שלם
+                  <v-switch
+                    class="switch"
+                    color="black"
+                    v-model="isAllDay"
+                  ></v-switch>
+                  <v-spacer></v-spacer>
+                  <v-btn @click="addEvent()">
+                    שמור אירוע
+                  </v-btn>
+                </v-card-actions>
             </v-card>
         </v-app>
     </div>
@@ -110,11 +118,33 @@ export default class AddEvent extends Vue {
 
     endDate = null;
 
+    isStartDateMenuOpen = false;
+
+    isEndDateMenuOpen = false;
+
     get categories(): Category[] {
       if (this.$data.allCategories !== undefined) {
         return this.$data.allCategories.nodes;
       }
       return [];
+    }
+
+    saveSelectedStartDate(): void {
+      this.isStartDateMenuOpen = false;
+    }
+
+    cancelSelectedStartDate(): void {
+      this.startDate = null;
+      this.isStartDateMenuOpen = false;
+    }
+
+    saveSelectedEndDate(): void {
+      this.isEndDateMenuOpen = false;
+    }
+
+    cancelSelectedEndDate(): void {
+      this.endDate = null;
+      this.isEndDateMenuOpen = false;
     }
 
     addEvent(): void {
@@ -171,5 +201,8 @@ export default class AddEvent extends Vue {
   }
   .switch {
       padding: 1vw;
+  }
+  .dateSpacer {
+    width: 16vw;
   }
 </style>
