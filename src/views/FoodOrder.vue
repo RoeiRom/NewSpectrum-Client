@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-model="stepperStatus">
+  <v-stepper v-model="stepperStatus" class="stepper">
     <v-stepper-header>
       <v-stepper-step :complete="stepperStatus > 1" step="1"></v-stepper-step>
 
@@ -66,7 +66,9 @@ export default class FoodOrder extends Vue {
 
 
 <style scoped>
-
+.stepper {
+  width: 70%;
+}
 .v-card {
     display: flex;
     justify-content: center;
