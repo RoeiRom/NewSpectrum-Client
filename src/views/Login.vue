@@ -83,7 +83,7 @@ export default class Login extends Vue {
           }
           this.$router.replace('/');
         } else {
-          this.errorMessage = errorMessages.worngAuthMessage;
+          this.errorMessage = errorMessages.wrongAuthMessage;
         }
       }
     })
