@@ -28,7 +28,7 @@
 import { isToday } from 'date-fns';
 import { getModule } from 'vuex-module-decorators';
 import {
-  Component, Vue, Prop,
+  Component, Vue,
 } from 'vue-property-decorator';
 
 import User from '@/models/User';
@@ -52,9 +52,6 @@ interface UserOrderStatus {
   },
 })
 export default class UsersOrderStatus extends Vue {
-  @Prop({ type: Function })
-  passToNextStep!: Function;
-
   private ordersAmount = 0;
 
   private errorMessage = '';
@@ -103,7 +100,7 @@ export default class UsersOrderStatus extends Vue {
           lastFoodOrder: loggedInUserStatus.isOrderingToday ? new Date() : null,
         },
       })
-        .then(() => { this.passToNextStep(); })
+        .then(() => { this.$emit('passToNextStep'); })
         .catch(() => { this.errorMessage = dbErrorMessage; });
     }
   }

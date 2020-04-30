@@ -18,13 +18,13 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-card class="stepperCardStyle d-flex-justify-center" color="grey lighten-2" >
-            <OrderPlace :passToNextStep="passToNextStep" />
+            <OrderPlace @passToNextStep="passToNextStep" />
         </v-card>
       </v-stepper-content>
 
       <v-stepper-content step="2">
         <v-card class="stepperCardStyle d-flex-justify-center" color="grey lighten-2" >
-            <UsersOrderStatus :passToNextStep="passToNextStep" />
+            <UsersOrderStatus @passToNextStep="passToNextStep" />
         </v-card>
       </v-stepper-content>
 

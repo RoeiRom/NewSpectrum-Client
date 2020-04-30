@@ -43,7 +43,7 @@
         <!-- Footer & Buttons -->
         <v-row justify="end" no-gutters class="footer"
                v-if="chosenPlaceIndex !== undefined && chosenPlaceIndex !== -1">
-            <v-btn @click="passToNextStep">
+            <v-btn @click="$emit('passToNextStep')">
                 המשך
             </v-btn>
         </v-row>
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 import Place from '@/models/Place';
 
@@ -67,9 +67,6 @@ import { createFoodPlace } from '@/db-service/FoodOrder/mutations';
   },
 })
 export default class OrderPlace extends Vue {
-        @Prop({ type: Function })
-        passToNextStep!: Function;
-
         placeInput = '';
 
         chosenPlaceIndex = -1;
