@@ -87,8 +87,8 @@
                     v-model="isAllDay"
                   ></v-switch>
                   <v-spacer></v-spacer>
-                  <v-btn @click="addEvent()">
-                    שמור אירוע
+                  <v-btn outlined="black" class="addEventButton" @click="addEvent()">
+                    <h3>שמור אירוע</h3>
                   </v-btn>
                 </v-card-actions>
             </v-card>
@@ -128,12 +128,32 @@ export default class AddEvent extends Vue {
     get categories(): Category[] {
       if (this.$data.allCategories !== undefined) {
         const categoryNames = [];
-        for (let i = 0; i < this.$data.allCategories.nodes.length; i += 1) {
-          categoryNames.push(this.$data.allCategories.nodes[i].tag);
+        for (let categoryNumber = 0; categoryNumber < this.$data.allCategories.nodes.length;
+          categoryNumber += 1) {
+          if (this.$data.allCategories.nodes[categoryNumber].tag !== 'birthday'
+              && this.$data.allCategories.nodes[categoryNumber].tag !== 'holiday') {
+            categoryNames.push(this.$data.allCategories.nodes[categoryNumber].title);
+          }
         }
         return categoryNames;
       }
       return [];
+    }
+
+    get CategoryNameTranslate(): string | undefined {
+      if (this.$data.allCategories !== undefined) {
+        let categoryNameTranslate = '';
+        for (let categoryNumber = 0; categoryNumber < this.$data.allCategories.nodes.length;
+          categoryNumber += 1) {
+          if (this.$data.allCategories.nodes[categoryNumber].title === this.selectInput) {
+            categoryNameTranslate = this.$data.allCategories.nodes[categoryNumber].tag;
+          }
+          if (categoryNameTranslate) {
+            return categoryNameTranslate;
+          }
+        }
+      }
+      return '';
     }
 
     saveSelectedStartDate(): void {
@@ -155,8 +175,10 @@ export default class AddEvent extends Vue {
     }
 
     addEvent(): void {
-      this.eventInput = this.selectInput;
-      if (this.eventInput && this.startDate) {
+      if (this.CategoryNameTranslate) {
+        this.selectInput = this.CategoryNameTranslate;
+      }
+      if (this.eventInput && this.selectInput && this.startDate && this.endDate) {
         this.$apollo
           .mutate({
             mutation: createEvent,
@@ -213,5 +235,10 @@ export default class AddEvent extends Vue {
   }
   .dateSpacer {
     width: 16vw;
+  }
+  .addEventButton {
+    width: 7vw;
+    border-radius: 0.4vw;
+    font-size: 0.9vw;
   }
 </style>
