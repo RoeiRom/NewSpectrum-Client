@@ -1,5 +1,5 @@
 <template>
-    <div class="calendarWrapper">
+    <v-sheet class="calendarWrapper">
         <CategoriesBar
             :categories="categories"
             :title="calendarDateTitle"
@@ -7,16 +7,15 @@
             @nextPressed="$refs.calendar.next()"
         />
         <v-calendar
-            :event-more="false"
-            v-model="startTimeCalendar"
             class="calendar"
+            v-model="startTimeCalendar"
             :events="calendarEvents"
             event-overlap-mode="stack"
             :event-color="getEventColor"
             event-text-color="black"
             ref="calendar"
         />
-    </div>
+    </v-sheet>
 </template>
 
 <script lang="ts">
@@ -182,5 +181,6 @@ export default class Calendar extends Vue {
   .calendarWrapper {
     width: 100%;
     margin-top: 5vh;
+    height: fit-content;
   }
 </style>
