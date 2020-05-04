@@ -3,12 +3,15 @@
         <v-btn class="nav-button" text icon @click="$emit('prevPressed')">
             <v-icon color="black">mdi-chevron-right</v-icon>
         </v-btn>
-        <v-btn icon class="add-button" small>
-            <v-icon color="black">
-                mdi-plus
-            </v-icon>
+        <v-btn class="today-button" @click="$emit('backToToday')">
+                היום
         </v-btn>
         <div class="categories">
+            <v-btn icon class="add-button" small>
+                <v-icon color="black">
+                    mdi-plus
+                </v-icon>
+            </v-btn>
             <div v-for="category in categories" :key="category.id"
                 class="category" :style="{ backgroundColor: category.color }">
                 {{ category.title }}
@@ -42,7 +45,10 @@ export default class CategoriesBar extends Vue {
     }
     .add-button {
         border: solid black 1px;
-        flex: 0.75;
+    }
+    .today-button {
+        border: solid black 1px;
+        flex: 1;
     }
     .categories {
         display: flex;
@@ -62,9 +68,7 @@ export default class CategoriesBar extends Vue {
     }
     .bar {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        background-color: white;
         border: solid black 1px;
         padding: 1vh 0;
     }
