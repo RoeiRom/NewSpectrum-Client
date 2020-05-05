@@ -1,5 +1,5 @@
 <template>
-    <div class="calendarWrapper">
+    <v-sheet class="calendarWrapper">
         <CategoriesBar
             :categories="categories"
             :title="calendarDateTitle"
@@ -17,7 +17,7 @@
             event-text-color="black"
             ref="calendar"
         />
-    </div>
+    </v-sheet>
 </template>
 
 <script lang="ts">
@@ -190,6 +190,7 @@ export default class Calendar extends Vue {
 <style scoped>
   .calendarWrapper {
     width: 100%;
-    margin-top: 2vh;
+    margin-top: 5vh;
+    height: fit-content;
   }
 </style>
