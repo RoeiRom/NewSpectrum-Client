@@ -1,14 +1,15 @@
 <template>
-    <div class="calendarWrapper">
+    <v-sheet class="calendarWrapper">
         <CategoriesBar
             :categories="categories"
             :title="calendarDateTitle"
             @prevPressed="$refs.calendar.prev()"
             @nextPressed="$refs.calendar.next()"
+            @backToToday="backToToday"
         />
         <v-calendar
             :event-more="false"
-            v-model="startTimeCalendar"
+            v-model="focus"
             class="calendar"
             :events="calendarEvents"
             event-overlap-mode="stack"
@@ -16,7 +17,7 @@
             event-text-color="black"
             ref="calendar"
         />
-    </div>
+    </v-sheet>
 </template>
 
 <script lang="ts">
@@ -55,7 +56,7 @@ interface UserBirthday {
   },
 })
 export default class Calendar extends Vue {
-    startTimeCalendar = Calendar.formatDate(new Date(), false);
+    focus = Calendar.getTodayFormatted();
 
     holidays: CalendarEvent[] = [];
 
@@ -72,7 +73,7 @@ export default class Calendar extends Vue {
     };
 
     get calendarDateTitle(): string {
-      const startDate: Date = new Date(this.startTimeCalendar);
+      const startDate: Date = new Date(this.focus);
       const monthName = startDate.toLocaleString('he', { month: 'long' });
       return `${monthName} ${startDate.getFullYear()}`;
     }
@@ -104,6 +105,14 @@ export default class Calendar extends Vue {
       return this.allUsersBirthdays.nodes.map(
         (userBirthday: UserBirthday) => Calendar.convertBirthdayToCalendarEvent(userBirthday),
       );
+    }
+
+    private backToToday() {
+      this.focus = Calendar.getTodayFormatted();
+    }
+
+    static getTodayFormatted() {
+      return Calendar.formatDate(new Date(), false);
     }
 
     static getHolidaysFromHebrewDates(hebrewDates: HebrewDate[]): CalendarEvent[] {
@@ -182,5 +191,6 @@ export default class Calendar extends Vue {
   .calendarWrapper {
     width: 100%;
     margin-top: 5vh;
+    height: fit-content;
   }
 </style>
