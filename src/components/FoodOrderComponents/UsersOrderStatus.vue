@@ -66,7 +66,7 @@ export default class UsersOrderStatus extends Vue {
         return {
           name: user.name,
           isLoggedInUser,
-          isOrderingToday: UsersOrderStatus.isUserOrderingToday(user, isLoggedInUser),
+          isOrderingToday: UsersOrderStatus.getUserInitialStatus(user, isLoggedInUser),
         };
       });
       this.ordersAmount = userOrderStatus.filter((user) => user.isOrderingToday).length;
@@ -105,7 +105,7 @@ export default class UsersOrderStatus extends Vue {
     }
   }
 
-  static isUserOrderingToday(user: User, isLoggedInUser: boolean): boolean {
+  static getUserInitialStatus(user: User, isLoggedInUser: boolean): boolean {
     return isLoggedInUser || isToday(new Date(user.lastFoodOrder));
   }
 }
