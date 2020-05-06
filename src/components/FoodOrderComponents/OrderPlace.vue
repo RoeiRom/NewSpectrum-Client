@@ -27,7 +27,7 @@
                 <v-progress-circular :size="40" color="primary"
                                      indeterminate v-if="$apollo.loading"/>
                 <v-container class="overflow-y-auto placesContainer" v-if="!$apollo.loading">
-                    <v-list shaped="true" v-scroll>
+                    <v-list shaped v-scroll>
                         <v-list-item-group color="primary" v-model="chosenPlaceIndex">
                             <v-list-item :key="place.id" v-for="place in places">
                                 <v-list-item-content>
@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import Place from '@/models/Place';
 
@@ -102,17 +102,26 @@ export default class OrderPlace extends Vue {
           // eslint-disable-next-line
           alert(`Place ${this.places[this.chosenPlaceIndex].name} has been chosen!`);
         }
+
+        @Watch('chosenPlaceIndex')
+        chosenPlaceIndexStateChanged(newState: number) {
+          if (newState !== -1) {
+            this.placeInput = this.places[this.chosenPlaceIndex].name;
+          }
+        }
 }
 </script>
 
 <style scoped>
-    .placeTextFieldStyle {
-        height: 8.5vh;
-    }
+  .placeTextFieldStyle {
+      height: 8.5vh;
+  }
   .placeListsCol {
     text-align-last: center;
   }
   .placesContainer {
     max-height:28vh;
+    direction: ltr;
+    margin-top: 1vh;
   }
 </style>
