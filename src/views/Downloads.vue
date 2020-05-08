@@ -27,6 +27,7 @@ import { AllDownloads } from '@/db-service/Downloads/queries';
   apollo: {
     allDownloads: {
       query: AllDownloads,
+      fetchPolicy: 'cache-and-network',
     },
   },
 })
@@ -35,16 +36,15 @@ export default class Downloads extends Vue {
 
   private storeModule = getModule(StoreModule, this.$store);
 
+  public mounted() {
+    this.storeModule.setDisplayProgressBar(true);
+  }
+
   get downloads(): Download[] {
     if (this.$data.allDownloads !== undefined) {
-      this.storeModule.setDisplayProgressBar(false);
       return this.$data.allDownloads.nodes;
     }
     return [];
-  }
-
-  public mounted() {
-    this.storeModule.setDisplayProgressBar(true);
   }
 
   @Watch('$apollo.loading')

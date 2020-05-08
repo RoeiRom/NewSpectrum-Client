@@ -24,9 +24,7 @@
         <!-- Places list -->
         <v-row justify="center" no-gutters>
             <v-col cols="3" class="placeListsCol">
-                <v-progress-circular :size="40" color="primary"
-                                     indeterminate v-if="$apollo.loading"/>
-                <v-container class="overflow-y-auto placesContainer" v-if="!$apollo.loading">
+                <v-container class="overflow-y-auto placesContainer">
                     <v-list shaped="true" v-scroll>
                         <v-list-item-group color="primary" v-model="chosenPlaceIndex">
                             <v-list-item :key="place.id" v-for="place in places">
@@ -51,25 +49,34 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { getModule } from 'vuex-module-decorators';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import Place from '@/models/Place';
 
 import { AllFoodPlacesQuery } from '@/db-service/FoodOrder/queries';
 import { createFoodPlace } from '@/db-service/FoodOrder/mutations';
 
+import StoreModule from '@/store/storeModule';
+
 @Component({
   apollo: {
     allFoodPlaces: {
       query: AllFoodPlacesQuery,
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'cache-and-network',
     },
   },
 })
 export default class OrderPlace extends Vue {
-        placeInput = '';
+        private placeInput = '';
 
-        chosenPlaceIndex = -1;
+        private chosenPlaceIndex = -1;
+
+        private storeModule = getModule(StoreModule, this.$store);
+
+        public mounted() {
+          this.storeModule.setDisplayProgressBar(true);
+        }
 
         get places(): Place[] {
           if (this.$data.allFoodPlaces !== undefined) {
@@ -101,6 +108,14 @@ export default class OrderPlace extends Vue {
         locationWasChosen(): void {
           // eslint-disable-next-line
           alert(`Place ${this.places[this.chosenPlaceIndex].name} has been chosen!`);
+        }
+
+        @Watch('$apollo.loading')
+        // eslint-disable-next-line
+        loadingStateChanged(newState: boolean, oldState: boolean) {
+          if (!newState) {
+            this.storeModule.setDisplayProgressBar(false);
+          }
         }
 }
 </script>
